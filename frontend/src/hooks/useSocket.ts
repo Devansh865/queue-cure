@@ -144,6 +144,12 @@ export function useSocket(onPatientCalled?: (payload: { token: string; name: str
     }
   }, [socket, isConnected]);
 
+  const updateRoomInfo = useCallback((roomNumber: string, doctorName: string) => {
+    if (socket && isConnected) {
+      socket.emit('update-room-info', { roomNumber, doctorName });
+    }
+  }, [socket, isConnected]);
+
   const resetQueue = useCallback(() => {
     if (socket && isConnected) {
       socket.emit('reset-queue');
@@ -158,6 +164,7 @@ export function useSocket(onPatientCalled?: (payload: { token: string; name: str
     skipPatient,
     recallPatient,
     updateConfig,
+    updateRoomInfo,
     resetQueue
   };
 }

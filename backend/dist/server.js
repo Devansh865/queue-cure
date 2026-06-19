@@ -85,6 +85,13 @@ io.on('connection', (socket) => {
             io.emit('state-update', queueManager.getState());
         }
     });
+    socket.on('update-room-info', (data) => {
+        console.log('Event: update-room-info received', data);
+        if (data && data.roomNumber && data.doctorName) {
+            queueManager.updateRoomInfo(data.roomNumber, data.doctorName);
+            io.emit('state-update', queueManager.getState());
+        }
+    });
     socket.on('reset-queue', () => {
         console.log('Event: reset-queue received');
         queueManager.resetQueue();

@@ -2,9 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useSocket, Patient } from '../../hooks/useSocket';
-import { VisualTimeline } from '../../components/VisualTimeline';
-import { PatientSearch } from '../../components/PatientSearch';
-import { StatsCard } from '../../components/StatsCard';
 import { 
   Tv, 
   Activity, 
@@ -15,7 +12,8 @@ import {
   AlertOctagon,
   MicOff,
   Stethoscope,
-  ChevronRight
+  QrCode,
+  Info
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import canvasConfetti from 'canvas-confetti';
@@ -62,33 +60,31 @@ export default function PatientMonitor() {
 
   // Text-To-Speech Patient Callout
   const handlePatientCalled = ({ token, name }: { token: string; name: string }) => {
-    // Prevent double calls for same patient trigger
     if (lastCalledToken.current === token) return;
     lastCalledToken.current = token;
 
-    // Trigger subtle party confetti (clean burst)
+    // Trigger subtle party confetti
     canvasConfetti({
-      particleCount: 50,
-      spread: 50,
-      origin: { y: 0.8 }
+      particleCount: 40,
+      spread: 45,
+      origin: { y: 0.6 }
     });
 
     playChime();
 
     if (!voiceEnabled) return;
 
-    // Trigger Speech synthesis after a slight delay for the chime to play
+    // Trigger Speech synthesis after a slight delay
     setTimeout(() => {
       try {
         const speech = new SpeechSynthesisUtterance();
         speech.text = `Attention please. Patient with Token number ${token.split('-').join(' ')}, ${name}, please proceed to Cabin 0 1.`;
         speech.volume = 1;
-        speech.rate = 0.85; // Slower rate for clear pronunciation
+        speech.rate = 0.85; 
         speech.pitch = 1.0; 
         
-        // Find standard English voice if available
         const voices = window.speechSynthesis.getVoices();
-        const fallbackVoice = voices.find(v => v.lang.includes('en-US') && v.name.includes('Google')) || 
+        const fallbackVoice = voices.find(v => v.lang.includes('en-IN') || v.lang.includes('en-US')) || 
                              voices.find(v => v.lang.includes('en'));
         if (fallbackVoice) speech.voice = fallbackVoice;
 
@@ -170,25 +166,23 @@ export default function PatientMonitor() {
   };
 
   return (
-    <main className="min-h-screen relative overflow-hidden bg-[#0a0e17] text-slate-100 p-4 md:p-8 flex flex-col justify-between">
+    <main className="min-h-screen relative overflow-hidden bg-[#070b12] text-slate-100 p-6 md:p-8 flex flex-col justify-between">
       {/* Medical Grid Overlay */}
       <div className="medical-grid" />
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full space-y-6 flex-grow">
+      <div className="relative z-10 max-w-7xl mx-auto w-full flex-grow flex flex-col gap-6">
         
         {/* HEADER SECTION */}
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800/60 pb-6">
-          <div>
-            <div className="flex items-center space-x-3">
-              <span className="p-2.5 bg-indigo-500/10 rounded-2xl text-indigo-400 border border-indigo-500/20 shadow-md">
-                <Tv size={22} className="text-indigo-400" />
-              </span>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                  Patient Board
-                </h1>
-                <p className="text-xs text-slate-500 font-semibold tracking-wider uppercase">QueueCure AI Waiting Screen</p>
-              </div>
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800/60 pb-5">
+          <div className="flex items-center space-x-3">
+            <span className="p-2.5 bg-indigo-500/10 rounded-2xl text-indigo-400 border border-indigo-500/20 shadow-md">
+              <Tv size={24} className="text-indigo-400" />
+            </span>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                OPD Token Display Board
+              </h1>
+              <p className="text-xs text-slate-500 font-semibold tracking-wider uppercase">Real-Time Patient Guidance Screen</p>
             </div>
           </div>
           
@@ -199,122 +193,89 @@ export default function PatientMonitor() {
                 setVoiceEnabled(!voiceEnabled);
                 if (!voiceEnabled) playChime();
               }}
-              className={`glass-panel px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border transition-all ${
+              className={`glass-panel px-4.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border transition-all ${
                 voiceEnabled 
                   ? 'bg-emerald-600/15 border-emerald-500/30 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.08)]' 
                   : 'bg-slate-900/40 border-slate-800 text-slate-500 hover:text-slate-300'
               }`}
             >
               {voiceEnabled ? <Volume2 size={13} className="animate-bounce" /> : <MicOff size={13} />}
-              <span>SPEECH CALLS: {voiceEnabled ? 'ON' : 'OFF'}</span>
+              <span>SPEECH CALLS: {voiceEnabled ? 'ACTIVE' : 'MUTED'}</span>
             </button>
 
             {/* Live Clock */}
-            <div className="glass-panel px-4 py-2 rounded-xl text-sm font-mono text-slate-400 flex items-center gap-2 border border-slate-800/60">
+            <div className="glass-panel px-4.5 py-2 rounded-xl text-sm font-mono text-slate-300 flex items-center gap-2 border border-slate-800/60">
               <Clock size={14} className="text-slate-500" />
               {timeStr || '--:--:--'}
             </div>
 
             {/* Connection Indicator */}
-            <div className="glass-panel px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 border border-slate-800/60">
+            <div className="glass-panel px-4.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 border border-slate-800/60">
               <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
-              <span>{isConnected ? 'LIVE SYNCED' : 'OFFLINE'}</span>
+              <span>{isConnected ? 'LIVE' : 'OFFLINE'}</span>
             </div>
           </div>
         </header>
 
-        {/* TOP STATS ROW */}
-        <div className="grid grid-cols-3 gap-4">
-          <div className="glass-panel p-4 rounded-xl border border-slate-800/60 flex items-center space-x-3.5">
-            <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
-              <Users size={16} />
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-bold text-slate-500 block">Total Active Load</span>
-              <span className="text-base font-bold text-white">{(stats?.totalWaiting ?? 0) + (activePatient ? 1 : 0)} Patients</span>
-            </div>
-          </div>
-
-          <div className="glass-panel p-4 rounded-xl border border-slate-800/60 flex items-center space-x-3.5">
-            <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
-              <CheckCircle size={16} />
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-bold text-slate-500 block">Served Today</span>
-              <span className="text-base font-bold text-white">{stats?.totalServed ?? 0} Completed</span>
-            </div>
-          </div>
-
-          <div className="glass-panel p-4 rounded-xl border border-slate-800/60 flex items-center space-x-3.5">
-            <div className="p-2 bg-amber-500/10 rounded-lg text-amber-400">
-              <Clock size={16} />
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-bold text-slate-500 block">Average Wait</span>
-              <span className="text-base font-bold text-white">
-                {stats?.averageWaitTime ? `${Math.round(stats.averageWaitTime / 60)} mins` : 'Calculating...'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* MONITOR MAIN DASHBOARD */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* MONITOR MAIN SPLIT GRID LAYOUT */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch flex-grow">
           
-          {/* LEFT AREA: MASSIVE CALLOUT SCREEN */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* LEFT AREA (lg:col-span-7): MASSIVE CALLOUT SCREEN + SCAN QR BLOCK */}
+          <div className="lg:col-span-7 flex flex-col justify-between gap-6">
             
-            <section className="glass-panel p-8 rounded-3xl border border-slate-800/80 flex flex-col justify-between items-center text-center relative overflow-hidden h-[420px] bg-slate-900/10">
+            {/* NOW SERVING SCREEN */}
+            <section className="glass-panel p-8 rounded-3xl border border-slate-800 flex flex-col justify-between items-center text-center relative overflow-hidden flex-grow bg-slate-900/10 min-h-[300px]">
               
-              {/* Corner clinical outline markings */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-slate-700 rounded-tl-lg" />
-              <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-slate-700 rounded-tr-lg" />
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-slate-700 rounded-bl-lg" />
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-slate-700 rounded-br-lg" />
+              {/* Corner EMR-like visual layout frames */}
+              <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-slate-700/80 rounded-tl-xl" />
+              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-slate-700/80 rounded-tr-xl" />
+              <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-slate-700/80 rounded-bl-xl" />
+              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-slate-700/80 rounded-br-xl" />
 
               <div className="w-full flex justify-between items-center z-10">
-                <span className="text-[11px] font-bold text-indigo-400 uppercase tracking-widest flex items-center gap-1.5 bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
-                  <Stethoscope size={13} className="text-indigo-400 animate-pulse" />
-                  {roomInfo ? `${roomInfo.roomNumber} - ${roomInfo.doctorName}` : 'Cabin 01 - Dr. Sarah Jenkins'}
+                <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest flex items-center gap-2 bg-indigo-500/10 px-4 py-2 rounded-xl border border-indigo-500/20">
+                  <Stethoscope size={15} className="text-indigo-400 shrink-0" />
+                  {roomInfo ? `${roomInfo.roomNumber} • Dr. ${roomInfo.doctorName}` : 'Cabin 01 • Dr. Sharma'}
                 </span>
                 
                 {queueState?.isDelayed && (
                   <motion.span
-                    animate={{ opacity: [0.6, 1, 0.6] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="text-[10px] font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-full"
+                    animate={{ scale: [1, 1.03, 1] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-full"
                   >
-                    <AlertOctagon size={11} /> Delay Detected
+                    <AlertOctagon size={13} /> Doctor Delayed
                   </motion.span>
                 )}
               </div>
 
               {activePatient ? (
-                <div className="space-y-4 my-auto z-10 w-full">
+                <div className="my-auto z-10 w-full py-6">
                   <motion.div
                     key={activePatient.token}
-                    initial={{ scale: 0.95, opacity: 0 }}
+                    initial={{ scale: 0.94, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="space-y-4"
+                    className="space-y-6"
                   >
-                    <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">NOW CALLING PATIENT</span>
-                    <h2 className="text-7xl md:text-8xl font-black text-indigo-400 tracking-wider font-mono drop-shadow-[0_0_20px_rgba(99,102,241,0.2)]">
+                    <span className="text-xs font-bold text-slate-500 tracking-widest uppercase block">NOW SERVING</span>
+                    
+                    <h2 className="text-9xl md:text-[9.5rem] font-black text-indigo-400 tracking-wider font-mono leading-none drop-shadow-[0_0_20px_rgba(99,102,241,0.15)]">
                       {activePatient.token}
                     </h2>
                     
                     <div className="space-y-1">
-                      <p className="text-xl font-bold text-white tracking-wide">{activePatient.name}</p>
-                      <p className="text-xs text-slate-400 font-medium">Please proceed to Cabin 01 for consultation</p>
+                      <p className="text-3xl font-extrabold text-white tracking-wide">{activePatient.name}</p>
+                      <p className="text-sm text-slate-400 font-medium">Please proceed inside the consultation cabin</p>
                     </div>
 
-                    {/* Dynamic Session Progress Bar */}
-                    <div className="max-w-md mx-auto pt-4 space-y-2">
-                      <div className="flex justify-between items-center text-[10px] text-slate-500 font-bold uppercase tracking-wider">
-                        <span>Expected Consultation progress</span>
-                        <span className="font-mono">{formatDuration(activePatient.elapsedTime)}</span>
+                    {/* Consultation progress countdown */}
+                    <div className="max-w-md mx-auto pt-6 space-y-2 border-t border-slate-850/40">
+                      <div className="flex justify-between items-center text-xs text-slate-500 font-bold uppercase tracking-wider">
+                        <span>Expected Session duration</span>
+                        <span className="font-mono text-slate-400">{formatDuration(activePatient.elapsedTime)}</span>
                       </div>
                       
-                      <div className="w-full bg-slate-900/60 rounded-full h-2 border border-slate-800/80 overflow-hidden relative">
+                      <div className="w-full bg-slate-900/60 rounded-full h-2.5 border border-slate-800 overflow-hidden relative">
                         <motion.div 
                           className={`h-full rounded-full transition-all ${
                             queueState?.isDelayed ? 'bg-rose-500' : 'bg-indigo-500'
@@ -327,7 +288,7 @@ export default function PatientMonitor() {
 
                       {queueState?.isDelayed && (
                         <p className="text-[10px] text-rose-400 font-bold uppercase tracking-wider animate-pulse pt-0.5">
-                          Consultation exceeding expected average duration
+                          Consultation duration exceeding targeted average
                         </p>
                       )}
                     </div>
@@ -336,23 +297,23 @@ export default function PatientMonitor() {
                 </div>
               ) : (
                 <div className="space-y-3.5 my-auto z-10">
-                  <h2 className="text-3xl font-extrabold text-slate-500 tracking-wider uppercase">
-                    No active call
+                  <h2 className="text-4xl font-extrabold text-slate-500 tracking-wider uppercase">
+                    Cabin Preparing
                   </h2>
-                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                    The cabin is currently preparing. Please refer to the waiting lists on the side. Next token announced shortly.
+                  <p className="text-sm text-slate-500 max-w-sm mx-auto leading-relaxed">
+                    Consultation is currently idle. Please refer to the upcoming waiting list on the side. Next token announced shortly.
                   </p>
                 </div>
               )}
 
               {/* Heartbeat EKG Graphics */}
-              <div className="w-full h-8 flex justify-center opacity-10 z-0">
+              <div className="w-full h-4 flex justify-center opacity-5 z-0">
                 <svg className="w-64 h-full" viewBox="0 0 200 40">
                   <path
                     d="M 0 20 L 50 20 L 60 10 L 70 30 L 75 20 L 95 20 L 100 0 L 105 40 L 110 20 L 130 20 L 140 10 L 150 30 L 155 20 L 200 20"
                     fill="none"
                     stroke="#818cf8"
-                    strokeWidth="1.5"
+                    strokeWidth="1"
                     strokeDasharray="400"
                     strokeDashoffset="0"
                   />
@@ -360,81 +321,130 @@ export default function PatientMonitor() {
               </div>
             </section>
 
-            {/* TIMELINE */}
-            <VisualTimeline waiting={waitingList} active={activePatient} />
-
-          </div>
-
-          {/* RIGHT AREA: LOOKUP WIDGET & UPCOMING LIST */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* PERSONAL LOOKUP */}
-            <PatientSearch queueState={queueState} />
-
-            {/* UPCOMING QUEUE TABLE */}
-            <section className="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col h-[280px]">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Upcoming waiting list</h3>
-                <span className="text-[10px] text-slate-500 font-bold uppercase">Estimated Wait</span>
+            {/* SCAN QR TO TRACK QUEUE (Replaces Patient Portal lookup) */}
+            <section className="glass-panel p-5 rounded-2xl border border-slate-800/80 flex items-center justify-between gap-6 bg-slate-950/20">
+              <div className="space-y-2">
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                  <QrCode size={16} className="text-indigo-400" />
+                  Scan QR To Track Queue
+                </h4>
+                <p className="text-xs text-slate-400 leading-relaxed max-w-md">
+                  Scan this QR code with your smartphone camera to access the live mobile portal. Look up your token status, check queue progress, and monitor ETAs without waiting in the hall.
+                </p>
+                <div className="flex items-center gap-1.5 text-[10px] text-slate-500 font-semibold pt-1">
+                  <Info size={11} className="text-indigo-400/80" />
+                  <span>Receive dynamic notifications directly on your phone.</span>
+                </div>
               </div>
 
-              <div className="flex-grow overflow-y-auto space-y-2 pr-1 scrollbar-thin">
-                <AnimatePresence initial={false}>
-                  {waitingList.length > 0 ? (
-                    waitingList.map((patient, idx) => {
-                      const light = getTrafficLight(patient.estimatedWaitTime);
-                      return (
-                        <motion.div
-                          key={patient.id}
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="p-3 bg-slate-900/30 border border-slate-850 rounded-xl flex items-center justify-between transition-colors"
-                        >
-                          <div className="flex items-center space-x-2.5 min-w-0">
-                            <span className="text-xs font-mono font-bold text-indigo-400 tracking-wider w-14 shrink-0">{patient.token}</span>
-                            <span className="text-xs font-semibold text-slate-200 truncate">{patient.name}</span>
-                          </div>
+              {/* Simulated QR Code SVG drawing */}
+              <div className="p-2.5 bg-white rounded-xl flex-shrink-0 shadow-md">
+                <svg className="w-20 h-20 text-slate-950" viewBox="0 0 100 100" fill="currentColor">
+                  {/* Position Finders */}
+                  <rect x="0" y="0" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="4" />
+                  <rect x="6" y="6" width="16" height="16" fill="currentColor" />
+                  
+                  <rect x="72" y="0" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="4" />
+                  <rect x="78" y="6" width="16" height="16" fill="currentColor" />
 
-                          <div className="flex items-center space-x-3.5 shrink-0">
-                            {/* Traffic light wait index badge */}
-                            <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-bold ${light.color}`}>
-                              <span className={`w-1 h-1 rounded-full ${light.dot}`} />
-                              {light.text}
-                            </span>
-                            
-                            <span className={`text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded border tracking-wide hidden sm:inline-block ${getFriendlyPriority(patient.priority).color}`}>
-                              {getFriendlyPriority(patient.priority).label.split(' ')[0]}
-                            </span>
-
-                            <span className="text-xs font-mono font-bold text-indigo-400 w-12 text-right">
-                              {idx === 0 ? 'Next Up' : `${Math.round(patient.estimatedWaitTime / 60)}m`}
-                            </span>
-                          </div>
-                        </motion.div>
-                      );
-                    })
-                  ) : (
-                    <div className="h-full flex items-center justify-center text-slate-500 text-xs italic py-10">
-                      No upcoming patient registrations.
-                    </div>
-                  )}
-                </AnimatePresence>
+                  <rect x="0" y="72" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="4" />
+                  <rect x="6" y="78" width="16" height="16" fill="currentColor" />
+                  
+                  {/* Mock QR Matrix */}
+                  <rect x="36" y="4" width="8" height="16" />
+                  <rect x="48" y="0" width="12" height="8" />
+                  <rect x="64" y="12" width="4" height="4" />
+                  <rect x="32" y="24" width="24" height="8" />
+                  <rect x="60" y="24" width="8" height="12" />
+                  <rect x="36" y="36" width="8" height="8" />
+                  <rect x="48" y="48" width="12" height="12" />
+                  <rect x="64" y="36" width="4" height="12" />
+                  <rect x="80" y="36" width="12" height="8" />
+                  <rect x="92" y="32" width="4" height="20" />
+                  <rect x="32" y="56" width="12" height="8" />
+                  <rect x="32" y="68" width="8" height="16" />
+                  <rect x="48" y="72" width="20" height="8" />
+                  <rect x="60" y="84" width="8" height="16" />
+                  <rect x="36" y="92" width="16" height="8" />
+                  <rect x="76" y="56" width="8" height="8" />
+                  <rect x="84" y="68" width="16" height="12" />
+                  <rect x="76" y="84" width="8" height="8" />
+                  <rect x="84" y="88" width="16" height="8" />
+                  <rect x="92" y="92" width="8" height="8" />
+                </svg>
               </div>
             </section>
 
           </div>
 
+          {/* RIGHT AREA (lg:col-span-5): EXPANDED UPCOMING QUEUE BOARD */}
+          <section className="lg:col-span-5 glass-panel p-6 rounded-3xl border border-slate-800 flex flex-col min-h-[460px]">
+            <div className="flex justify-between items-center mb-5 pb-2.5 border-b border-slate-850">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Users size={16} className="text-indigo-400" />
+                Next in Queue
+              </h3>
+              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Est. Wait Time</span>
+            </div>
+
+            {/* Legible waiting list (shows up to 10 tokens) */}
+            <div className="flex-grow overflow-y-auto space-y-3.5 pr-1 scrollbar-thin">
+              <AnimatePresence initial={false}>
+                {waitingList.length > 0 ? (
+                  waitingList.slice(0, 10).map((patient, idx) => {
+                    const light = getTrafficLight(patient.estimatedWaitTime);
+                    return (
+                      <motion.div
+                        key={patient.id}
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-3 bg-slate-900/30 border border-slate-850/80 rounded-xl flex items-center justify-between transition-all"
+                      >
+                        <div className="flex items-center space-x-3.5 min-w-0">
+                          {/* Large high-contrast token */}
+                          <span className="text-xl font-black font-mono text-white tracking-wider shrink-0">{patient.token}</span>
+                          <span className="text-sm font-bold text-slate-200 truncate">{patient.name}</span>
+                        </div>
+
+                        <div className="flex items-center space-x-3 shrink-0">
+                          {/* Traffic Light status color & text */}
+                          <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-extrabold tracking-wide ${light.color}`}>
+                            <span className={`w-2 h-2 rounded-full ${light.dot}`} />
+                            {light.text}
+                          </span>
+                          
+                          <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded border tracking-wide hidden xl:inline-block ${getFriendlyPriority(patient.priority).color}`}>
+                            {getFriendlyPriority(patient.priority).label.split(' ')[0]}
+                          </span>
+
+                          <span className="text-sm font-mono font-bold text-indigo-400 w-16 text-right shrink-0">
+                            {idx === 0 ? 'Next Up' : `${Math.round(patient.estimatedWaitTime / 60)} mins`}
+                          </span>
+                        </div>
+                      </motion.div>
+                    );
+                  })
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center text-slate-500 text-sm font-semibold italic py-20 gap-2">
+                    <Activity size={20} className="text-slate-600 animate-pulse" />
+                    <span>No upcoming patient slots waiting.</span>
+                  </div>
+                )}
+              </AnimatePresence>
+            </div>
+          </section>
+
         </div>
 
       </div>
 
-      {/* "THANK YOU FOR YOUR PATIENCE" FOOTER DISCLAIMER TICKER */}
-      <footer className="w-full max-w-7xl mx-auto mt-6 pt-4 border-t border-slate-850/60 text-center flex flex-col md:flex-row justify-between items-center gap-2 text-slate-500 text-[10px] font-medium">
-        <span className="uppercase tracking-widest text-[9px] font-bold text-indigo-400/80 animate-pulse">
-          🏥 QueueCure Clinical operations ticker: System synced in real-time.
+      {/* BOTTOM FOOTER SECTION */}
+      <footer className="w-full max-w-7xl mx-auto mt-6 pt-5 border-t border-slate-850/80 flex flex-col sm:flex-row justify-between items-center gap-3 text-slate-500 text-xs font-semibold">
+        <span className="uppercase tracking-widest text-[10px] font-bold text-indigo-400/80 flex items-center gap-1.5 animate-pulse">
+          <Activity size={12} /> Live OPD Ticker: Please wait for your token block to pulse.
         </span>
-        <span>
-          Thank you for your patience. If your status requires urgent attention, please notify the medical front desk immediately.
+        <span className="text-slate-400 text-center">
+          Thank you for your patience. Coordinate with receptionist if triage level requires priority care updates.
         </span>
       </footer>
     </main>

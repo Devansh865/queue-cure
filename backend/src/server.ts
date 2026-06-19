@@ -97,6 +97,14 @@ io.on('connection', (socket: Socket) => {
     }
   });
 
+  socket.on('update-room-info', (data: { roomNumber: string; doctorName: string }) => {
+    console.log('Event: update-room-info received', data);
+    if (data && data.roomNumber && data.doctorName) {
+      queueManager.updateRoomInfo(data.roomNumber, data.doctorName);
+      io.emit('state-update', queueManager.getState());
+    }
+  });
+
   socket.on('reset-queue', () => {
     console.log('Event: reset-queue received');
     queueManager.resetQueue();

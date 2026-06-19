@@ -37,7 +37,7 @@ export class QueueManager {
       waitFactors: [],
       roomInfo: {
         roomNumber: 'Cabin 01',
-        doctorName: 'Dr. Sarah Jenkins',
+        doctorName: 'Sharma',
         status: 'available',
         expectedCompletionTime: 300
       },
@@ -153,12 +153,14 @@ export class QueueManager {
     // Within priority bands, maintain First-In-First-Out (FIFO)
     this.sortWaitingQueue();
 
-    // Log Notification
-    const friendlyPriority = priority === 'emergency' ? 'Immediate Attention' : priority === 'urgent' ? 'Priority Care' : 'Standard Priority';
-    this.addNotification(
-      `Patient ${displayName} (${token}) registered with ${friendlyPriority}.`, 
-      priority === 'emergency' ? 'emergency' : priority === 'urgent' ? 'warning' : 'info'
-    );
+    // Log Triage Notifications (Emergency & Urgent)
+    if (priority === 'emergency' || priority === 'urgent') {
+      const friendlyPriority = priority === 'emergency' ? 'Immediate Attention' : 'Priority Care';
+      this.addNotification(
+        `Triage Alert: Patient ${displayName} (${token}) registered under ${friendlyPriority}.`, 
+        priority === 'emergency' ? 'emergency' : 'warning'
+      );
+    }
 
     this.recalculateState();
     this.saveState();
@@ -195,7 +197,6 @@ export class QueueManager {
       servedPatient.status = 'served';
       servedPatient.servedAt = Date.now();
       this.state.served.push(servedPatient);
-      this.addNotification(`Patient ${servedPatient.name} (${servedPatient.token}) completed consultation.`, 'info');
       this.state.active = null;
     }
 
@@ -205,9 +206,9 @@ export class QueueManager {
       nextPatient.calledAt = Date.now();
       nextPatient.elapsedTime = 0;
       this.state.active = nextPatient;
-      this.addNotification(`Called Patient ${nextPatient.name} (${nextPatient.token}) to ${this.state.roomInfo.roomNumber}.`, 'info');
-    } else {
-      this.addNotification(`All waiting patients served. Consultation Room is now idle.`, 'info');
+      
+      // Patient Called Alert Notification
+      this.addNotification(`Patient Called: ${nextPatient.token} (${nextPatient.name}) to ${this.state.roomInfo.roomNumber}.`, 'info');
     }
 
     // Reset delay state on new call
@@ -230,7 +231,6 @@ export class QueueManager {
     skippedPatient.skippedAt = Date.now();
     
     this.state.missed.push(skippedPatient);
-    this.addNotification(`Patient ${skippedPatient.name} (${skippedPatient.token}) skipped and moved to missed queue.`, 'warning');
     this.state.active = null;
 
     // Reset delay metrics
@@ -259,7 +259,7 @@ export class QueueManager {
 
     // Recalled patients are placed at the FRONT of the queue for prompt treatment
     this.state.waiting.unshift(patient);
-    this.addNotification(`Patient ${patient.name} (${patient.token}) recalled to active queue.`, 'info');
+    this.addNotification(`Recall Alert: Patient ${patient.name} (${patient.token}) recalled to active queue.`, 'info');
 
     this.recalculateState();
     this.saveState();
@@ -270,7 +270,14 @@ export class QueueManager {
   public updateConfig(averageConsultationTime: number): void {
     if (averageConsultationTime <= 0) return;
     this.state.averageConsultationTime = averageConsultationTime;
-    this.addNotification(`Average consultation duration adjusted to ${averageConsultationTime} minutes.`, 'info');
+    this.recalculateState();
+    this.saveState();
+  }
+
+  public updateRoomInfo(roomNumber: string, doctorName: string): void {
+    this.state.roomInfo.roomNumber = roomNumber;
+    this.state.roomInfo.doctorName = doctorName;
+    this.addNotification(`Room Config: Doctor assigned to ${roomNumber} changed to Dr. ${doctorName}.`, 'info');
     this.recalculateState();
     this.saveState();
   }
@@ -280,7 +287,7 @@ export class QueueManager {
     this.actionLock = false;
     this.tokenCounter = 0;
     this.state = this.getInitialState();
-    this.addNotification('Clinical Operations Queue database purged and reset.', 'warning');
+    this.addNotification('Command Center: operations queue database reset.', 'warning');
     this.saveState();
   }
 
@@ -305,7 +312,7 @@ export class QueueManager {
       if (oldDelayState !== this.state.isDelayed) {
         stateChanged = true;
         if (this.state.isDelayed) {
-          this.addNotification(`Dr. Sarah Jenkins is running delayed on current session.`, 'delay');
+          this.addNotification(`Delay Alert: Dr. ${this.state.roomInfo.doctorName} session exceeds target time.`, 'delay');
         }
       }
       

@@ -34,6 +34,7 @@ export default function ReceptionistDashboard() {
     skipPatient,
     recallPatient,
     updateConfig,
+    updateRoomInfo,
     resetQueue
   } = useSocket();
 
@@ -549,6 +550,31 @@ export default function ReceptionistDashboard() {
                   onChange={(e) => handleUpdateConfig(Number(e.target.value))}
                   className="w-full accent-indigo-500 bg-slate-800 h-1 rounded-lg cursor-pointer"
                 />
+              </div>
+
+              {/* Clinician Cabin Selector */}
+              <div className="space-y-2 pt-2 border-t border-slate-850/60">
+                <label className="text-[10px] uppercase font-bold text-slate-400">Doctor Cabin Profile</label>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {[
+                    { name: 'Sharma', room: 'Cabin 01' },
+                    { name: 'Gupta', room: 'Cabin 02' },
+                    { name: 'Verma', room: 'Cabin 03' }
+                  ].map((profile) => (
+                    <button
+                      key={profile.name}
+                      type="button"
+                      onClick={() => updateRoomInfo(profile.room, profile.name)}
+                      className={`py-1.5 rounded-lg text-[9px] font-bold border transition-all ${
+                        queueState?.roomInfo.doctorName === profile.name
+                          ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400'
+                          : 'bg-slate-900/20 border-slate-800 text-slate-500 hover:border-slate-700'
+                      }`}
+                    >
+                      Dr. {profile.name}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="pt-2 border-t border-slate-850 flex items-center justify-between">
