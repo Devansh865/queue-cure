@@ -1,0 +1,230 @@
+{
+  "state": {
+    "waiting": [
+      {
+        "id": "pat_1781871721646_hnq9usu62",
+        "token": "QC-006",
+        "name": "deded",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1781871721646,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 300,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1781871723775_absdy912h",
+        "token": "QC-007",
+        "name": "dedede",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1781871723775,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 600,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1781871726287_npbhfxx9u",
+        "token": "QC-008",
+        "name": "dedede (2)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1781871726287,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 900,
+        "elapsedTime": 0
+      }
+    ],
+    "active": {
+      "id": "pat_1781871719238_a5myj3fqn",
+      "token": "QC-005",
+      "name": "jdiejd",
+      "symptoms": "General Checkup",
+      "priority": "normal",
+      "status": "serving",
+      "joinedAt": 1781871719238,
+      "calledAt": 1781873131343,
+      "servedAt": null,
+      "skippedAt": null,
+      "estimatedWaitTime": 142,
+      "elapsedTime": 0
+    },
+    "missed": [],
+    "served": [
+      {
+        "id": "pat_1781870918889_r6zb7wniv",
+        "token": "QC-004",
+        "name": "someone",
+        "symptoms": "heart attack",
+        "priority": "emergency",
+        "status": "served",
+        "joinedAt": 1781870918889,
+        "calledAt": 1781870926592,
+        "servedAt": 1781871208099,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 280
+      },
+      {
+        "id": "pat_1781870895064_1y39sbneq",
+        "token": "QC-002",
+        "name": "rahul",
+        "symptoms": "chest congestion",
+        "priority": "urgent",
+        "status": "served",
+        "joinedAt": 1781870895064,
+        "calledAt": 1781871208099,
+        "servedAt": 1781871307389,
+        "skippedAt": null,
+        "estimatedWaitTime": 20,
+        "elapsedTime": 98
+      },
+      {
+        "id": "pat_1781870905908_vf1tioweu",
+        "token": "QC-003",
+        "name": "uhdue",
+        "symptoms": "jdejied",
+        "priority": "urgent",
+        "status": "served",
+        "joinedAt": 1781870905908,
+        "calledAt": 1781871307389,
+        "servedAt": 1781871737395,
+        "skippedAt": null,
+        "estimatedWaitTime": 202,
+        "elapsedTime": 427
+      },
+      {
+        "id": "pat_1781871733409_nv1cxpjzo",
+        "token": "QC-009",
+        "name": "djeodjeide",
+        "symptoms": "General Checkup",
+        "priority": "urgent",
+        "status": "served",
+        "joinedAt": 1781871733409,
+        "calledAt": 1781871737395,
+        "servedAt": 1781872527021,
+        "skippedAt": null,
+        "estimatedWaitTime": 127,
+        "elapsedTime": 480
+      },
+      {
+        "id": "pat_1781870862681_yjylihyxt",
+        "token": "QC-001",
+        "name": "john",
+        "symptoms": "migrain",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781872682235,
+        "calledAt": 1781872686611,
+        "servedAt": 1781873131343,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 442
+      }
+    ],
+    "averageConsultationTime": 5,
+    "stats": {
+      "totalWaiting": 3,
+      "totalServed": 5,
+      "totalMissed": 0,
+      "averageWaitTime": 146,
+      "currentLoad": "medium",
+      "efficiencyScore": 100,
+      "queueHealth": "warning"
+    },
+    "isDelayed": false,
+    "delaySeconds": 0,
+    "confidence": "high",
+    "waitFactors": [
+      {
+        "label": "Current session expected remaining",
+        "minutes": 5
+      },
+      {
+        "label": "Standard patient queuing (3 Standard Priority cases)",
+        "minutes": 15
+      }
+    ],
+    "roomInfo": {
+      "roomNumber": "Cabin 01",
+      "doctorName": "Dr. Sarah Jenkins",
+      "status": "busy",
+      "expectedCompletionTime": 300
+    },
+    "insights": [
+      "Clinic operating at optimal efficiency. Sessions matching target times."
+    ],
+    "notifications": [
+      {
+        "id": "notif_1781873131343_a2dz7",
+        "message": "Called Patient jdiejd (QC-005) to Cabin 01.",
+        "timestamp": 1781873131343,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781873131343_s8lx7",
+        "message": "Patient john (QC-001) completed consultation.",
+        "timestamp": 1781873131343,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781872988855_zmzvc",
+        "message": "Dr. Sarah Jenkins is running delayed on current session.",
+        "timestamp": 1781872988855,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1781872686611_7b9q4",
+        "message": "Called Patient john (QC-001) to Cabin 01.",
+        "timestamp": 1781872686611,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781872682235_gg1j0",
+        "message": "Patient john (QC-001) recalled to active queue.",
+        "timestamp": 1781872682235,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781872678045_5nl93",
+        "message": "Patient john (QC-001) skipped and moved to missed queue.",
+        "timestamp": 1781872678045,
+        "type": "warning"
+      },
+      {
+        "id": "notif_1781872674476_b2xtu",
+        "message": "Called Patient john (QC-001) to Cabin 01.",
+        "timestamp": 1781872674476,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781872660926_ybdev",
+        "message": "Patient john (QC-001) recalled to active queue.",
+        "timestamp": 1781872660926,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781872646455_rd3l2",
+        "message": "Patient john (QC-001) skipped and moved to missed queue.",
+        "timestamp": 1781872646455,
+        "type": "warning"
+      },
+      {
+        "id": "notif_1781872527021_qrwgn",
+        "message": "Called Patient john (QC-001) to Cabin 01.",
+        "timestamp": 1781872527021,
+        "type": "info"
+      }
+    ]
+  },
+  "tokenCounter": 9
+}
