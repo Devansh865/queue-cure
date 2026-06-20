@@ -1,0 +1,195 @@
+{
+  "state": {
+    "waiting": [],
+    "active": null,
+    "missed": [
+      {
+        "id": "pat_1781951598120_wlczizg3b",
+        "token": "QC-007",
+        "name": "meow",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "skipped",
+        "joinedAt": 1781951598120,
+        "calledAt": 1781953229219,
+        "servedAt": null,
+        "skippedAt": 1781953270917,
+        "estimatedWaitTime": 246,
+        "elapsedTime": 41
+      }
+    ],
+    "served": [
+      {
+        "id": "pat_1781951569090_33dvd2ylw",
+        "token": "QC-001",
+        "name": "dev",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781951569090,
+        "calledAt": 1781951601013,
+        "servedAt": 1781951913640,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 310
+      },
+      {
+        "id": "pat_1781951575210_mmen6uvtp",
+        "token": "QC-002",
+        "name": "haha",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781951575210,
+        "calledAt": 1781951913640,
+        "servedAt": 1781952559997,
+        "skippedAt": null,
+        "estimatedWaitTime": 10,
+        "elapsedTime": 642
+      },
+      {
+        "id": "pat_1781951578755_ciar77xlw",
+        "token": "QC-003",
+        "name": "yooo",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781951578756,
+        "calledAt": 1781952559997,
+        "servedAt": 1781952940262,
+        "skippedAt": null,
+        "estimatedWaitTime": 342,
+        "elapsedTime": 378
+      },
+      {
+        "id": "pat_1781951581699_tk48ommkv",
+        "token": "QC-004",
+        "name": "nvm",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781951581699,
+        "calledAt": 1781952940262,
+        "servedAt": 1781953044344,
+        "skippedAt": null,
+        "estimatedWaitTime": 78,
+        "elapsedTime": 103
+      },
+      {
+        "id": "pat_1781951586560_0qhs8mfrt",
+        "token": "QC-005",
+        "name": "whatsup",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781951586560,
+        "calledAt": 1781953044344,
+        "servedAt": 1781953174760,
+        "skippedAt": null,
+        "estimatedWaitTime": 197,
+        "elapsedTime": 130
+      },
+      {
+        "id": "pat_1781951589613_2veki2x0l",
+        "token": "QC-006",
+        "name": "shivam",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781951589613,
+        "calledAt": 1781953174760,
+        "servedAt": 1781953229219,
+        "skippedAt": null,
+        "estimatedWaitTime": 170,
+        "elapsedTime": 54
+      }
+    ],
+    "averageConsultationTime": 5,
+    "stats": {
+      "totalWaiting": 0,
+      "totalServed": 6,
+      "totalMissed": 1,
+      "averageWaitTime": 958,
+      "currentLoad": "low",
+      "efficiencyScore": 94,
+      "queueHealth": "optimal"
+    },
+    "isDelayed": false,
+    "delaySeconds": 0,
+    "confidence": "high",
+    "waitFactors": [],
+    "roomInfo": {
+      "roomNumber": "Cabin 02",
+      "doctorName": "Gupta",
+      "status": "available",
+      "expectedCompletionTime": 300
+    },
+    "insights": [
+      "Queue operational load is low. Patient flow is optimal.",
+      "Clinic operating at optimal efficiency. Sessions matching target times."
+    ],
+    "notifications": [
+      {
+        "id": "notif_1781953229219_jr2vb",
+        "message": "Patient Called: QC-007 (meow) to Cabin 02.",
+        "timestamp": 1781953229219,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781953174760_hg1y0",
+        "message": "Patient Called: QC-006 (shivam) to Cabin 02.",
+        "timestamp": 1781953174760,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781953044344_fpzel",
+        "message": "Patient Called: QC-005 (whatsup) to Cabin 02.",
+        "timestamp": 1781953044344,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781952940262_t829p",
+        "message": "Patient Called: QC-004 (nvm) to Cabin 02.",
+        "timestamp": 1781952940262,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781952862513_u2vpn",
+        "message": "Delay Alert: Dr. Gupta session exceeds target time.",
+        "timestamp": 1781952862513,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1781952569117_ayomg",
+        "message": "Room Config: Doctor assigned to Cabin 02 changed to Dr. Gupta.",
+        "timestamp": 1781952569117,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781952568529_b2y5t",
+        "message": "Room Config: Doctor assigned to Cabin 01 changed to Dr. Sharma.",
+        "timestamp": 1781952568529,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781952567529_pb8ko",
+        "message": "Room Config: Doctor assigned to Cabin 02 changed to Dr. Gupta.",
+        "timestamp": 1781952567529,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781952559997_q3evl",
+        "message": "Patient Called: QC-003 (yooo) to Cabin 01.",
+        "timestamp": 1781952559997,
+        "type": "info"
+      },
+      {
+        "id": "notif_1781952215926_ga9a2",
+        "message": "Delay Alert: Dr. Sharma session exceeds target time.",
+        "timestamp": 1781952215926,
+        "type": "delay"
+      }
+    ]
+  },
+  "tokenCounter": 7
+}
