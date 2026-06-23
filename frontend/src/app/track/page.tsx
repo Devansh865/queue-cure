@@ -195,7 +195,7 @@ export default function TrackPage() {
             </span>
             <div>
               <p className="text-xs font-extrabold text-white tracking-tight leading-tight">
-                QueueCure AI
+                PulseQueue
               </p>
               <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">
                 Token Tracker
@@ -500,7 +500,7 @@ export default function TrackPage() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-slate-800/60 px-4 py-3">
         <p className="text-center text-[10px] text-slate-600 font-semibold max-w-md mx-auto">
-          QueueCure AI • OPD Queue Management • Please inform receptionist for priority updates
+          PulseQueue • OPD Queue Management • Please inform receptionist for priority updates
         </p>
       </footer>
     </main>

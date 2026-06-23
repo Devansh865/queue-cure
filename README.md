@@ -1,6 +1,6 @@
-# QueueCure AI 🏥📈
+# PulseQueue 🏥📈
 
-QueueCure AI is a production-grade, real-time clinical command center and patient queue management system designed for modern clinics and hospitals. It synchronizes medical receptionists and patient waiting boards instantaneously via Socket.IO, offering auto-calculated smart ETAs, delay predictions, priority triage scheduling, and text-to-speech audio callouts.
+PulseQueue is a production-grade, real-time clinical command center and patient queue management system designed for modern clinics and hospitals. It synchronizes medical receptionists and patient waiting boards instantaneously via Socket.IO, offering auto-calculated smart ETAs, delay predictions, priority triage scheduling, and text-to-speech audio callouts.
 
 ---
 

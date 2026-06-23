@@ -1,12 +1,12 @@
-# QueueCure AI - System Architecture
+# PulseQueue - System Architecture
 
-QueueCure AI is designed as a real-time, responsive, and robust healthcare queue management solution. This document describes the internal engineering decisions, prediction formulas, and concurrency controls that ensure the system operates reliably under clinical stress.
+PulseQueue is designed as a real-time, responsive, and robust healthcare queue management solution. This document describes the internal engineering decisions, prediction formulas, and concurrency controls that ensure the system operates reliably under clinical stress.
 
 ---
 
 ## 1. Smart ETA Engine
 
-A key feature of QueueCure AI is predicting accurate wait times for patients in line. Unlike simple static estimates, the ETA engine dynamically adjusts based on queue structure, doctor progress, and runtime delays.
+A key feature of PulseQueue is predicting accurate wait times for patients in line. Unlike simple static estimates, the ETA engine dynamically adjusts based on queue structure, doctor progress, and runtime delays.
 
 ### ETA Formula
 For the $i$-th patient in the waiting list (where $i = 0$ is the patient next in line):
@@ -51,7 +51,7 @@ If a consultation exceeds the configured average consultation duration ($T_{\tex
 
 ## 3. Concurrency Guard & Race Conditions
 
-In high-stress clinic environments, receptionists might double-click buttons, or multiple staff members might use the system simultaneously. QueueCure AI implements safeguards at both the frontend and backend:
+In high-stress clinic environments, receptionists might double-click buttons, or multiple staff members might use the system simultaneously. PulseQueue implements safeguards at both the frontend and backend:
 
 ### Backend Locks
 The `QueueManager` uses an atomic action lock to serialize state changes:

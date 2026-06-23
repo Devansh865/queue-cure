@@ -127,7 +127,7 @@ export default function ReceptionistDashboard() {
               </span>
               <div>
                 <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                  QueueCure AI
+                  PulseQueue
                 </h1>
                 <p className="text-xs text-slate-500 font-semibold tracking-wider uppercase">Clinical Operations Console</p>
               </div>

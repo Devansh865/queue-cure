@@ -1,4 +1,4 @@
-# QueueCure AI - Event Flow Diagram
+# PulseQueue - Event Flow Diagram
 
 This document illustrates the real-time event lifecycles and communications between the Receptionist Dashboard, Socket.IO Backend Server, and Patient Waiting Screens.
 

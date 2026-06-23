@@ -1,7 +1,7 @@
 {
-  "name": "queue-cure-backend",
+  "name": "pulse-queue-backend",
   "version": "1.0.0",
-  "description": "QueueCure AI Real-time Queue Management Backend",
+  "description": "PulseQueue Real-time Queue Management Backend",
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",

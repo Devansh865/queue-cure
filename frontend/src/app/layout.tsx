@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QueueCure AI - Clinical Operations Command Center",
+  title: "PulseQueue - Clinical Operations Command Center",
   description: "Real-time, production-grade healthcare queue management dashboard and patient waiting board with Smart ETA and delay analytics.",
 };
 

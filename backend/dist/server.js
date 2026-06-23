@@ -103,5 +103,5 @@ io.on('connection', (socket) => {
     });
 });
 httpServer.listen(PORT, () => {
-    console.log(`QueueCure AI Real-time Backend running on http://localhost:${PORT}`);
+    console.log(`PulseQueue Real-time Backend running on http://localhost:${PORT}`);
 });

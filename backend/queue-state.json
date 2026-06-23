@@ -1,21 +1,147 @@
 {
   "state": {
-    "waiting": [],
-    "active": null,
+    "waiting": [
+      {
+        "id": "pat_1782194059408_nb9hdv780",
+        "token": "QC-020",
+        "name": "p (5)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194059408,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 300,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782194059689_pfuo8upt0",
+        "token": "QC-021",
+        "name": "p (6)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194059689,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 600,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782194059971_x0n7vf9bv",
+        "token": "QC-022",
+        "name": "p (7)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194059971,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 900,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782194060298_gkgfw42xb",
+        "token": "QC-023",
+        "name": "p (8)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194060298,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 1200,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782194060628_fmwpluwwi",
+        "token": "QC-024",
+        "name": "p (9)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194060628,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 1500,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782194060944_gz6uvd8n8",
+        "token": "QC-025",
+        "name": "p (10)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194060944,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 1800,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782194061228_i7jxk4xcz",
+        "token": "QC-026",
+        "name": "p (11)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194061228,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 2100,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782194061562_afijfw6jc",
+        "token": "QC-027",
+        "name": "p (12)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782194061562,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 2400,
+        "elapsedTime": 0
+      }
+    ],
+    "active": {
+      "id": "pat_1782194058699_jbhhyeefp",
+      "token": "QC-019",
+      "name": "p (4)",
+      "symptoms": "General Checkup",
+      "priority": "normal",
+      "status": "serving",
+      "joinedAt": 1782194058699,
+      "calledAt": 1782196179187,
+      "servedAt": null,
+      "skippedAt": null,
+      "estimatedWaitTime": 299,
+      "elapsedTime": 0
+    },
     "missed": [
       {
-        "id": "pat_1781951598120_wlczizg3b",
-        "token": "QC-007",
-        "name": "meow",
+        "id": "pat_1782192717676_70ciw2tfx",
+        "token": "QC-015",
+        "name": "patient 4",
         "symptoms": "General Checkup",
         "priority": "normal",
         "status": "skipped",
-        "joinedAt": 1781951598120,
-        "calledAt": 1781953229219,
+        "joinedAt": 1782192717676,
+        "calledAt": 1782194016727,
         "servedAt": null,
-        "skippedAt": 1781953270917,
-        "estimatedWaitTime": 246,
-        "elapsedTime": 41
+        "skippedAt": 1782194043173,
+        "estimatedWaitTime": 55,
+        "elapsedTime": 26
       }
     ],
     "served": [
@@ -102,94 +228,256 @@
         "skippedAt": null,
         "estimatedWaitTime": 170,
         "elapsedTime": 54
+      },
+      {
+        "id": "pat_1781953713151_c699cd2a2",
+        "token": "QC-008",
+        "name": "aarya sharma",
+        "symptoms": "no brain found",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781953713151,
+        "calledAt": 1781953741710,
+        "servedAt": 1781953834974,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 93
+      },
+      {
+        "id": "pat_1781953767885_becsusipu",
+        "token": "QC-009",
+        "name": "noni",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781953767885,
+        "calledAt": 1781953834974,
+        "servedAt": 1781954670224,
+        "skippedAt": null,
+        "estimatedWaitTime": 207,
+        "elapsedTime": 829
+      },
+      {
+        "id": "pat_1781951598120_wlczizg3b",
+        "token": "QC-007",
+        "name": "meow",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781953961883,
+        "calledAt": 1781954670224,
+        "servedAt": 1781955085977,
+        "skippedAt": null,
+        "estimatedWaitTime": 529,
+        "elapsedTime": 413
+      },
+      {
+        "id": "pat_1781953770589_qlxz7lz2h",
+        "token": "QC-010",
+        "name": "devansh",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781953770589,
+        "calledAt": 1781955085977,
+        "servedAt": 1781956038759,
+        "skippedAt": null,
+        "estimatedWaitTime": 113,
+        "elapsedTime": 944
+      },
+      {
+        "id": "pat_1781953773210_pxjiun5av",
+        "token": "QC-011",
+        "name": "chacha",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1781953773210,
+        "calledAt": 1781956038759,
+        "servedAt": 1781956410970,
+        "skippedAt": null,
+        "estimatedWaitTime": 644,
+        "elapsedTime": 369
+      },
+      {
+        "id": "pat_1782192703818_au0ejgjst",
+        "token": "QC-012",
+        "name": "pateint 1",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782192703818,
+        "calledAt": 1782192727216,
+        "servedAt": 1782193121967,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 391
+      },
+      {
+        "id": "pat_1782192712555_tagdqfu0m",
+        "token": "QC-013",
+        "name": "patient 2",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782192712555,
+        "calledAt": 1782193121967,
+        "servedAt": 1782193658764,
+        "skippedAt": null,
+        "estimatedWaitTime": 91,
+        "elapsedTime": 533
+      },
+      {
+        "id": "pat_1782192715437_rfimr7yuq",
+        "token": "QC-014",
+        "name": "patient 3",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782192715437,
+        "calledAt": 1782193658764,
+        "servedAt": 1782194016727,
+        "skippedAt": null,
+        "estimatedWaitTime": 233,
+        "elapsedTime": 355
+      },
+      {
+        "id": "pat_1782192720907_n9vr82nto",
+        "token": "QC-016",
+        "name": "patient 5",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782192720907,
+        "calledAt": 1782194047840,
+        "servedAt": 1782196178186,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 2112
+      },
+      {
+        "id": "pat_1782192723185_0htirlmtu",
+        "token": "QC-017",
+        "name": "patientt 6",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782192723185,
+        "calledAt": 1782196178186,
+        "servedAt": 1782196178773,
+        "skippedAt": null,
+        "estimatedWaitTime": 1812,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782192725939_3i4v4hay7",
+        "token": "QC-018",
+        "name": "patient 7",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782192725939,
+        "calledAt": 1782196178773,
+        "servedAt": 1782196179187,
+        "skippedAt": null,
+        "estimatedWaitTime": 300,
+        "elapsedTime": 1
       }
     ],
     "averageConsultationTime": 5,
     "stats": {
-      "totalWaiting": 0,
-      "totalServed": 6,
+      "totalWaiting": 8,
+      "totalServed": 17,
       "totalMissed": 1,
-      "averageWaitTime": 958,
-      "currentLoad": "low",
-      "efficiencyScore": 94,
-      "queueHealth": "optimal"
+      "averageWaitTime": 1161,
+      "currentLoad": "high",
+      "efficiencyScore": 98,
+      "queueHealth": "critical"
     },
     "isDelayed": false,
     "delaySeconds": 0,
-    "confidence": "high",
-    "waitFactors": [],
+    "confidence": "medium",
+    "waitFactors": [
+      {
+        "label": "Current session expected remaining",
+        "minutes": 5
+      },
+      {
+        "label": "Standard patient queuing (8 Standard Priority cases)",
+        "minutes": 40
+      }
+    ],
     "roomInfo": {
       "roomNumber": "Cabin 02",
       "doctorName": "Gupta",
-      "status": "available",
+      "status": "busy",
       "expectedCompletionTime": 300
     },
     "insights": [
-      "Queue operational load is low. Patient flow is optimal.",
-      "Clinic operating at optimal efficiency. Sessions matching target times."
+      "Peak operational load. Flow is slower due to queue volume."
     ],
     "notifications": [
       {
-        "id": "notif_1781953229219_jr2vb",
-        "message": "Patient Called: QC-007 (meow) to Cabin 02.",
-        "timestamp": 1781953229219,
+        "id": "notif_1782196179187_73khi",
+        "message": "Patient Called: QC-019 (p (4)) to Cabin 02.",
+        "timestamp": 1782196179187,
         "type": "info"
       },
       {
-        "id": "notif_1781953174760_hg1y0",
-        "message": "Patient Called: QC-006 (shivam) to Cabin 02.",
-        "timestamp": 1781953174760,
+        "id": "notif_1782196178773_egdmx",
+        "message": "Patient Called: QC-018 (patient 7) to Cabin 02.",
+        "timestamp": 1782196178773,
         "type": "info"
       },
       {
-        "id": "notif_1781953044344_fpzel",
-        "message": "Patient Called: QC-005 (whatsup) to Cabin 02.",
-        "timestamp": 1781953044344,
+        "id": "notif_1782196178186_vl285",
+        "message": "Patient Called: QC-017 (patientt 6) to Cabin 02.",
+        "timestamp": 1782196178186,
         "type": "info"
       },
       {
-        "id": "notif_1781952940262_t829p",
-        "message": "Patient Called: QC-004 (nvm) to Cabin 02.",
-        "timestamp": 1781952940262,
-        "type": "info"
-      },
-      {
-        "id": "notif_1781952862513_u2vpn",
+        "id": "notif_1782194351321_yh0ag",
         "message": "Delay Alert: Dr. Gupta session exceeds target time.",
-        "timestamp": 1781952862513,
+        "timestamp": 1782194351321,
         "type": "delay"
       },
       {
-        "id": "notif_1781952569117_ayomg",
-        "message": "Room Config: Doctor assigned to Cabin 02 changed to Dr. Gupta.",
-        "timestamp": 1781952569117,
+        "id": "notif_1782194047840_4kbfx",
+        "message": "Patient Called: QC-016 (patient 5) to Cabin 02.",
+        "timestamp": 1782194047840,
         "type": "info"
       },
       {
-        "id": "notif_1781952568529_b2y5t",
-        "message": "Room Config: Doctor assigned to Cabin 01 changed to Dr. Sharma.",
-        "timestamp": 1781952568529,
+        "id": "notif_1782194016727_2e7ak",
+        "message": "Patient Called: QC-015 (patient 4) to Cabin 02.",
+        "timestamp": 1782194016727,
         "type": "info"
       },
       {
-        "id": "notif_1781952567529_pb8ko",
-        "message": "Room Config: Doctor assigned to Cabin 02 changed to Dr. Gupta.",
-        "timestamp": 1781952567529,
-        "type": "info"
-      },
-      {
-        "id": "notif_1781952559997_q3evl",
-        "message": "Patient Called: QC-003 (yooo) to Cabin 01.",
-        "timestamp": 1781952559997,
-        "type": "info"
-      },
-      {
-        "id": "notif_1781952215926_ga9a2",
-        "message": "Delay Alert: Dr. Sharma session exceeds target time.",
-        "timestamp": 1781952215926,
+        "id": "notif_1782193962050_yn6gc",
+        "message": "Delay Alert: Dr. Gupta session exceeds target time.",
+        "timestamp": 1782193962050,
         "type": "delay"
+      },
+      {
+        "id": "notif_1782193658764_4lece",
+        "message": "Patient Called: QC-014 (patient 3) to Cabin 02.",
+        "timestamp": 1782193658765,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782193424628_butyd",
+        "message": "Delay Alert: Dr. Gupta session exceeds target time.",
+        "timestamp": 1782193424628,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782193121967_f2v9n",
+        "message": "Patient Called: QC-013 (patient 2) to Cabin 02.",
+        "timestamp": 1782193121967,
+        "type": "info"
       }
     ]
   },
-  "tokenCounter": 7
+  "tokenCounter": 27
 }

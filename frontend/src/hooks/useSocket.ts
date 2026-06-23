@@ -88,12 +88,12 @@ export function useSocket(onPatientCalled?: (payload: { token: string; name: str
     });
 
     socketInstance.on('connect', () => {
-      console.log('Connected to QueueCure Backend');
+      console.log('Connected to PulseQueue Backend');
       setIsConnected(true);
     });
 
     socketInstance.on('disconnect', () => {
-      console.log('Disconnected from QueueCure Backend');
+      console.log('Disconnected from PulseQueue Backend');
       setIsConnected(false);
     });
 

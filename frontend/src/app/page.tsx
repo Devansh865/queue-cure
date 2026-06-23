@@ -33,10 +33,7 @@ export default function LandingPage() {
             transition={{ delay: 0.1, duration: 0.5 }}
             className="text-4xl md:text-6xl font-black tracking-tight"
           >
-            QueueCure{' '}
-            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
-              AI
-            </span>
+            PulseQueue
           </motion.h1>
 
           <motion.p
