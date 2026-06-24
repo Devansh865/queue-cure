@@ -50,7 +50,8 @@ export default function LandingPage() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-sm md:text-base text-slate-400 max-w-xl mx-auto font-medium"
           >
-            A high-fidelity clinical queue command center. Synchronized in real-time with smart ETA prediction models and delay-mitigation alerts.
+            Smart queue management for modern clinics.<br />
+            Real-time patient tracking, ETA prediction, voice announcements, and multi-cabin support.
           </motion.p>
         </div>
 
@@ -126,19 +127,19 @@ export default function LandingPage() {
         >
           <div className="flex items-center justify-center space-x-2 text-slate-400 text-xs font-semibold">
             <Cpu size={14} className="text-indigo-400" />
-            <span>Smart ETA predictions</span>
+            <span>Smart ETA Predictions</span>
           </div>
           <div className="flex items-center justify-center space-x-2 text-slate-400 text-xs font-semibold">
             <Activity size={14} className="text-emerald-400" />
-            <span>Active Triage System</span>
+            <span>Active Triage</span>
           </div>
           <div className="flex items-center justify-center space-x-2 text-slate-400 text-xs font-semibold">
-            <Sparkles size={14} className="text-pink-400" />
-            <span>Framer Motion FX</span>
+            <Monitor size={14} className="text-pink-400" />
+            <span>Multi-Cabin Support</span>
           </div>
           <div className="flex items-center justify-center space-x-2 text-slate-400 text-xs font-semibold">
             <ShieldAlert size={14} className="text-amber-400" />
-            <span>Delay Mitigation Engine</span>
+            <span>Delay Mitigation Alerts</span>
           </div>
         </motion.div>
 

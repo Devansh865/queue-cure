@@ -1,7 +1,50 @@
 {
   "state": {
     "cabinId": "cabin-03",
-    "waiting": [],
+    "waiting": [
+      {
+        "id": "pat_1782300080832_8r0jbmlwx",
+        "token": "QC-054",
+        "name": "patient 8",
+        "symptoms": "General Checkup",
+        "priority": "emergency",
+        "status": "waiting",
+        "joinedAt": 1782300080832,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782300057678_s9d0vf49p",
+        "token": "QC-052",
+        "name": "patient 5",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782300057678,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 300,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782300070739_qs02xvisr",
+        "token": "QC-053",
+        "name": "patient  7",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782300070739,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 600,
+        "elapsedTime": 0
+      }
+    ],
     "active": null,
     "missed": [],
     "served": [
@@ -116,23 +159,60 @@
         "skippedAt": null,
         "estimatedWaitTime": 1237,
         "elapsedTime": 253
+      },
+      {
+        "id": "pat_1782299034707_38orjrvmt",
+        "token": "QC-029",
+        "name": "dhejiid",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782299034707,
+        "calledAt": 1782299042116,
+        "servedAt": 1782299523335,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 477
+      },
+      {
+        "id": "pat_1782299037481_nrgqk74b1",
+        "token": "QC-030",
+        "name": "jdie",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782299037481,
+        "calledAt": 1782299523335,
+        "servedAt": 1782299523799,
+        "skippedAt": null,
+        "estimatedWaitTime": 177,
+        "elapsedTime": 1
       }
     ],
     "averageConsultationTime": 5,
     "stats": {
-      "totalWaiting": 0,
-      "totalServed": 8,
+      "totalWaiting": 3,
+      "totalServed": 10,
       "totalMissed": 0,
-      "averageWaitTime": 10091,
-      "currentLoad": "low",
+      "averageWaitTime": 8122,
+      "currentLoad": "medium",
       "efficiencyScore": 100,
-      "queueHealth": "optimal"
+      "queueHealth": "warning"
     },
     "isDelayed": false,
     "delaySeconds": 0,
     "manualDelaySeconds": 0,
     "confidence": "high",
-    "waitFactors": [],
+    "waitFactors": [
+      {
+        "label": "Triage prioritization (1 Immediate Attention cases)",
+        "minutes": 5
+      },
+      {
+        "label": "Standard patient queuing (2 Standard Priority cases)",
+        "minutes": 10
+      }
+    ],
     "roomInfo": {
       "roomNumber": "Cabin 03",
       "doctorName": "Verma",
@@ -140,10 +220,34 @@
       "expectedCompletionTime": 300
     },
     "insights": [
-      "Queue operational load is low. Patient flow is optimal.",
+      "Immediate Attention cases active. Triage sorting rules are active.",
       "Clinic operating at optimal efficiency. Sessions matching target times."
     ],
     "notifications": [
+      {
+        "id": "notif_1782300080832_9tk6r",
+        "message": "Triage Alert: Patient patient 8 (QC-054) registered under Immediate Attention.",
+        "timestamp": 1782300080832,
+        "type": "emergency"
+      },
+      {
+        "id": "notif_1782299523335_3koyz",
+        "message": "Patient Called: QC-030 (jdie) to Cabin 03.",
+        "timestamp": 1782299523335,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782299345555_lqk1a",
+        "message": "Delay Alert: Dr. Verma session exceeds target time.",
+        "timestamp": 1782299345555,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782299042116_7yzz7",
+        "message": "Patient Called: QC-029 (dhejiid) to Cabin 03.",
+        "timestamp": 1782299042116,
+        "type": "info"
+      },
       {
         "id": "notif_1782297766719_vqerx",
         "message": "Patient Called: QC-022 (p2) to Cabin 03.",
@@ -179,30 +283,6 @@
         "message": "Patient Called: QC-015 (jehrj) to Cabin 03.",
         "timestamp": 1782218428021,
         "type": "info"
-      },
-      {
-        "id": "notif_1782218384355_z4jwu",
-        "message": "Delay Alert: Dr. Verma session exceeds target time.",
-        "timestamp": 1782218384355,
-        "type": "delay"
-      },
-      {
-        "id": "notif_1782218081238_tlmx3",
-        "message": "Patient Called: QC-014 (ehruh) to Cabin 03.",
-        "timestamp": 1782218081238,
-        "type": "info"
-      },
-      {
-        "id": "notif_1782217891033_efnrd",
-        "message": "Patient Called: QC-005 (p3 (2)) to Cabin 03.",
-        "timestamp": 1782217891033,
-        "type": "info"
-      },
-      {
-        "id": "notif_1782217408432_1vej2",
-        "message": "Delay Alert: Dr. Verma session exceeds target time.",
-        "timestamp": 1782217408432,
-        "type": "delay"
       }
     ]
   }

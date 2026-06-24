@@ -159,8 +159,8 @@ function CabinCard({ cabinState }: { cabinState: QueueState }) {
       {/* Card header */}
       <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-slate-800/60 shrink-0 gap-2">
         <div className="min-w-0">
-          <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 truncate">{roomInfo.roomNumber}</p>
-          <p className="text-xs font-bold text-white truncate">Dr. {roomInfo.doctorName}</p>
+          <p className="text-xs font-black uppercase tracking-widest text-indigo-400 truncate">{roomInfo.roomNumber}</p>
+          <p className="text-sm font-bold text-white truncate">Dr. {roomInfo.doctorName}</p>
         </div>
         <div className="flex items-center gap-1.5 flex-shrink-0">
           {hasManualDelay && (
@@ -182,11 +182,11 @@ function CabinCard({ cabinState }: { cabinState: QueueState }) {
 
       {/* Now Serving */}
       <div className="flex flex-col items-center justify-center px-4 py-3 shrink-0 border-b border-slate-800/40">
-        <span className="text-[8px] font-black uppercase tracking-widest text-slate-500 mb-1">Now Serving</span>
+        <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Now Serving</span>
         {active ? (
           <motion.div key={active.token} initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center w-full">
-            <p className="text-4xl font-black font-mono tracking-wider text-indigo-400 leading-none">{active.token}</p>
-            <p className="text-xs font-semibold text-slate-300 mt-1 truncate">{active.name}</p>
+            <p className="text-5xl font-black font-mono tracking-wider text-indigo-400 leading-none">{active.token}</p>
+            <p className="text-sm font-semibold text-slate-300 mt-1 truncate">{active.name}</p>
             <div className="mt-1.5 w-full bg-slate-900/60 rounded-full h-1 border border-slate-800 overflow-hidden max-w-[160px] mx-auto">
               <motion.div className={`h-full rounded-full ${isDelayed ? 'bg-rose-500' : 'bg-indigo-500'}`}
                 initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.5 }} />
@@ -228,12 +228,12 @@ function CabinCard({ cabinState }: { cabinState: QueueState }) {
                       idx === 0 ? 'bg-indigo-500/5 border-indigo-500/20' : 'bg-slate-900/20 border-slate-800/60'
                     }`}>
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="text-[7px] text-slate-600 font-bold shrink-0">#{idx+1}</span>
-                      <span className={`font-black font-mono text-[10px] tracking-wide shrink-0 ${idx===0?'text-indigo-300':'text-white'}`}>{patient.token}</span>
-                      <span className="text-slate-400 text-[9px] truncate">{patient.name}</span>
+                      <span className="text-[9px] text-slate-600 font-bold shrink-0">#{idx+1}</span>
+                      <span className={`font-black font-mono text-[12px] tracking-wide shrink-0 ${idx===0?'text-indigo-300':'text-white'}`}>{patient.token}</span>
+                      <span className="text-slate-400 text-[11px] truncate">{patient.name}</span>
                     </div>
                     {/* Traffic light badge with ETA */}
-                    <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[8px] font-bold shrink-0 ${light.color}`}>
+                    <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[10px] font-bold shrink-0 ${light.color}`}>
                       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${light.dot} ${light.pulse ? 'animate-pulse' : ''}`} />
                       {idx === 0 ? 'Next' : `${Math.round(patient.estimatedWaitTime/60)}m`}
                     </span>
@@ -593,7 +593,7 @@ function SingleCabinMonitor({ cabinId }: { cabinId: string }) {
             <span className="flex items-center justify-center bg-transparent rounded-2xl shadow-md overflow-hidden"><img src="/logo.png" alt="Logo" className="h-10 w-auto drop-shadow-md" /></span>
             <div>
               <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">PulseQueue</h1>
-              <p className="text-xs text-slate-500 font-semibold tracking-wider uppercase">{roomNumber} · Dr. {doctorName}</p>
+              <p className="text-sm md:text-base text-slate-500 font-semibold tracking-wider uppercase">{roomNumber} · Dr. {doctorName}</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2.5">
@@ -628,8 +628,8 @@ function SingleCabinMonitor({ cabinId }: { cabinId: string }) {
 
               <div className="w-full flex justify-between items-center z-10">
                 <div className="text-left">
-                  <span className="text-xs font-black text-indigo-400 uppercase tracking-widest block">NOW SERVING</span>
-                  <span className="text-[10px] font-bold text-slate-500 block -mt-0.5">अभी सेवा में</span>
+                  <span className="text-sm font-black text-indigo-400 uppercase tracking-widest block">NOW SERVING</span>
+                  <span className="text-xs font-bold text-slate-500 block -mt-0.5">अभी सेवा में</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {manualDelay > 0 && (
@@ -651,13 +651,13 @@ function SingleCabinMonitor({ cabinId }: { cabinId: string }) {
                 <div className="my-auto z-10 w-full py-4">
                   <motion.div key={activePatient.token} initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 200, damping: 20 }} className="space-y-4">
-                    <h2 className="text-9xl md:text-[9.5rem] font-black text-indigo-400 tracking-wider font-mono leading-none">
+                    <h2 className="text-[10rem] md:text-[11rem] font-black text-indigo-400 tracking-wider font-mono leading-none">
                       {activePatient.token}
                     </h2>
                     <div className="space-y-1">
-                      <p className="text-3xl font-extrabold text-white tracking-wide">{activePatient.name}</p>
-                      <p className="text-sm text-slate-400 font-semibold flex items-center justify-center gap-1.5">
-                        <Stethoscope size={14} className="text-indigo-400" />
+                      <p className="text-4xl font-extrabold text-white tracking-wide">{activePatient.name}</p>
+                      <p className="text-base text-slate-400 font-semibold flex items-center justify-center gap-1.5">
+                        <Stethoscope size={16} className="text-indigo-400" />
                         Please proceed to {roomNumber} (Dr. {doctorName})
                       </p>
                     </div>
@@ -763,13 +763,13 @@ function SingleCabinMonitor({ cabinId }: { cabinId: string }) {
                           }`}>
                           <div className="flex flex-col min-w-0 flex-grow">
                             <div className="flex items-center space-x-2">
-                              <span className="text-[9px] font-black text-slate-600 shrink-0">#{idx+1}</span>
-                              <span className={`text-base font-black font-mono tracking-wider shrink-0 ${idx===0?'text-indigo-300':'text-white'}`}>{patient.token}</span>
-                              <span className="text-xs font-semibold text-slate-300 truncate">{patient.name}</span>
+                              <span className="text-[11px] font-black text-slate-600 shrink-0">#{idx+1}</span>
+                              <span className={`text-xl font-black font-mono tracking-wider shrink-0 ${idx===0?'text-indigo-300':'text-white'}`}>{patient.token}</span>
+                              <span className="text-sm font-semibold text-slate-300 truncate">{patient.name}</span>
                             </div>
                             {/* Traffic light badge */}
                             <div className="mt-1 flex items-center gap-1.5 pl-5">
-                              <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-extrabold ${light.color}`}>
+                              <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-extrabold ${light.color}`}>
                                 <span className={`w-1.5 h-1.5 rounded-full ${light.dot} ${light.pulse ? 'animate-pulse' : ''}`} />
                                 {light.label}
                               </span>
@@ -781,7 +781,7 @@ function SingleCabinMonitor({ cabinId }: { cabinId: string }) {
                                 {priority.label}
                               </span>
                             )}
-                            <span className="text-sm font-mono font-black text-indigo-400 w-12 text-right">
+                            <span className="text-base font-mono font-black text-indigo-400 w-16 text-right">
                               {idx === 0 ? 'Next' : `${Math.round(patient.estimatedWaitTime/60)} min`}
                             </span>
                           </div>

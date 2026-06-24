@@ -105,6 +105,15 @@ export default function ReceptionistDashboard() {
   const [formError, setFormError] = useState('');
   const [showCabinDropdown, setShowCabinDropdown] = useState(false);
 
+  // Action state
+  const [isCalling, setIsCalling] = useState(false);
+  const handleCallNext = () => {
+    if (isCalling) return;
+    setIsCalling(true);
+    callNext();
+    setTimeout(() => setIsCalling(false), 2000);
+  };
+
   // Settings
   const [avgTime, setAvgTime] = useState(5);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -339,8 +348,8 @@ export default function ReceptionistDashboard() {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-2.5">
-                    <button onClick={callNext} className="px-3 py-2.5 bg-indigo-600 hover:bg-indigo-500 border border-indigo-500/20 text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all">
-                      <Play size={12} /> Call Next
+                    <button onClick={handleCallNext} disabled={isCalling} className="px-3 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/50 disabled:cursor-not-allowed border border-indigo-500/20 text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all">
+                      <Play size={12} /> {isCalling ? 'Calling...' : 'Call Next'}
                     </button>
                     <button onClick={skipPatient} className="px-3 py-2.5 bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all">
                       <SkipForward size={12} /> Skip
@@ -356,9 +365,9 @@ export default function ReceptionistDashboard() {
                     <h4 className="text-xs font-bold text-slate-300 uppercase">Cabin Available</h4>
                     <p className="text-2xs text-slate-500 mt-0.5">Ready for next patient</p>
                   </div>
-                  <button onClick={callNext} disabled={waitingList.length === 0}
+                  <button onClick={handleCallNext} disabled={isCalling || waitingList.length === 0}
                     className="px-5 py-2 bg-emerald-600 disabled:bg-slate-900/40 disabled:text-slate-600 hover:bg-emerald-500 border border-emerald-500/20 text-white font-semibold text-xs rounded-xl inline-flex items-center gap-1.5 transition-all">
-                    <Play size={12} /> Call Patient
+                    <Play size={12} /> {isCalling ? 'Calling...' : 'Call Patient'}
                   </button>
                 </div>
               )}

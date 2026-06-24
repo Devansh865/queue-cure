@@ -1,7 +1,36 @@
 {
   "state": {
     "cabinId": "cabin-02",
-    "waiting": [],
+    "waiting": [
+      {
+        "id": "pat_1782300051381_9cvvke8kr",
+        "token": "QC-051",
+        "name": "patient 6",
+        "symptoms": "General Checkup",
+        "priority": "urgent",
+        "status": "waiting",
+        "joinedAt": 1782300051381,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 0
+      },
+      {
+        "id": "pat_1782300047162_ei47u3g5g",
+        "token": "QC-050",
+        "name": "patient 3",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "waiting",
+        "joinedAt": 1782300047162,
+        "calledAt": null,
+        "servedAt": null,
+        "skippedAt": null,
+        "estimatedWaitTime": 300,
+        "elapsedTime": 0
+      }
+    ],
     "active": null,
     "missed": [],
     "served": [
@@ -102,14 +131,42 @@
         "skippedAt": null,
         "estimatedWaitTime": 989,
         "elapsedTime": 489
+      },
+      {
+        "id": "pat_1782299027209_ryrkomxyv",
+        "token": "QC-027",
+        "name": "hduhe",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782299027209,
+        "calledAt": 1782299167445,
+        "servedAt": 1782299519554,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 349
+      },
+      {
+        "id": "pat_1782299030537_8cgjcs568",
+        "token": "QC-028",
+        "name": "bheh",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782299030537,
+        "calledAt": 1782299519554,
+        "servedAt": 1782299520707,
+        "skippedAt": null,
+        "estimatedWaitTime": 49,
+        "elapsedTime": 1
       }
     ],
     "averageConsultationTime": 5,
     "stats": {
-      "totalWaiting": 0,
-      "totalServed": 7,
+      "totalWaiting": 2,
+      "totalServed": 9,
       "totalMissed": 0,
-      "averageWaitTime": 11234,
+      "averageWaitTime": 8807,
       "currentLoad": "low",
       "efficiencyScore": 100,
       "queueHealth": "optimal"
@@ -118,7 +175,16 @@
     "delaySeconds": 0,
     "manualDelaySeconds": 0,
     "confidence": "high",
-    "waitFactors": [],
+    "waitFactors": [
+      {
+        "label": "Triage prioritization (1 Priority Care cases)",
+        "minutes": 5
+      },
+      {
+        "label": "Standard patient queuing (1 Standard Priority cases)",
+        "minutes": 5
+      }
+    ],
     "roomInfo": {
       "roomNumber": "Cabin 02",
       "doctorName": "Gupta",
@@ -130,6 +196,30 @@
       "Clinic operating at optimal efficiency. Sessions matching target times."
     ],
     "notifications": [
+      {
+        "id": "notif_1782300051381_dbze3",
+        "message": "Triage Alert: Patient patient 6 (QC-051) registered under Priority Care.",
+        "timestamp": 1782300051381,
+        "type": "warning"
+      },
+      {
+        "id": "notif_1782299519554_qt0oo",
+        "message": "Patient Called: QC-028 (bheh) to Cabin 02.",
+        "timestamp": 1782299519554,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782299470376_e3gms",
+        "message": "Delay Alert: Dr. Gupta session exceeds target time.",
+        "timestamp": 1782299470376,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782299167445_lqmgu",
+        "message": "Patient Called: QC-027 (hduhe) to Cabin 02.",
+        "timestamp": 1782299167445,
+        "type": "info"
+      },
       {
         "id": "notif_1782297829462_dck6a",
         "message": "Delay Alert: Dr. Gupta session exceeds target time.",
@@ -165,30 +255,6 @@
         "message": "Patient Called: QC-013 (p6) to Cabin 02.",
         "timestamp": 1782294660021,
         "type": "info"
-      },
-      {
-        "id": "notif_1782218431350_okjt2",
-        "message": "Patient Called: QC-012 (p5) to Cabin 02.",
-        "timestamp": 1782218431350,
-        "type": "info"
-      },
-      {
-        "id": "notif_1782218382341_apy4s",
-        "message": "Delay Alert: Dr. Gupta session exceeds target time.",
-        "timestamp": 1782218382342,
-        "type": "delay"
-      },
-      {
-        "id": "notif_1782218079118_c4ezf",
-        "message": "Patient Called: QC-011 (04) to Cabin 02.",
-        "timestamp": 1782218079118,
-        "type": "info"
-      },
-      {
-        "id": "notif_1782216693228_1kc47",
-        "message": "Delay Alert: Dr. Gupta session exceeds target time.",
-        "timestamp": 1782216693228,
-        "type": "delay"
       }
     ]
   }
