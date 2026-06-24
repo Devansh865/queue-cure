@@ -44,6 +44,12 @@ The system synchronizes receptionists, doctors, and patient display boards insta
 
 <img width="1913" height="876" alt="Screenshot 2026-06-24 174806" src="https://github.com/user-attachments/assets/7cbdaa44-cb40-45f3-808c-f123c22e5e99" />
 
+## Mobile Queue Tracking
+
+Patients can scan the QR code displayed on the lobby monitor and track queue updates from their phones without waiting near the consultation room.
+
+<img width="738" height="1600" alt="WhatsApp Image 2026-06-24 at 6 25 53 PM" src="https://github.com/user-attachments/assets/9a166466-7b3c-492d-baee-9b117b7a5c50" />
+
 ---
 
 ## Key Features
