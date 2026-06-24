@@ -142,7 +142,8 @@ PulseQueue was designed to handle real-world clinic scenarios:
 
 ## System Architecture
 
-(Add Architecture Diagram Here)
+<img width="891" height="613" alt="image" src="https://github.com/user-attachments/assets/9b8c13f3-21f5-4c29-a6b9-cd54f0a3ed07" />
+
 
 ### High-Level Flow
 
