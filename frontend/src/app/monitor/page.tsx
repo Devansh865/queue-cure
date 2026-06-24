@@ -8,7 +8,7 @@ import {
   Stethoscope, Smartphone, CheckCircle, Megaphone, CheckCircle2, Hourglass,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import canvasConfetti from 'canvas-confetti';
+
 
 // ─── Cabin order ─────────────────────────────────────────────────────────────
 const CABIN_ORDER = ['cabin-01', 'cabin-02', 'cabin-03'] as const;
@@ -340,7 +340,7 @@ function LobbyMonitor() {
   const handlePatientCalled = useCallback((payload: PatientCallAlert) => {
     if (announcedTokens.current.has(payload.token)) return;
     announcedTokens.current.add(payload.token);
-    canvasConfetti({ particleCount: 35, spread: 50, origin: { y: 0.6 } });
+
     playChime();
     if (!voiceEnabledRef.current) return;
     const spokenToken = payload.token.replace('QC-', '').split('').join(' ');
@@ -519,7 +519,7 @@ function SingleCabinMonitor({ cabinId }: { cabinId: string }) {
   const handlePatientCalled = useCallback((payload: PatientCallAlert) => {
     if (announcedTokens.current.has(payload.token)) return;
     announcedTokens.current.add(payload.token);
-    canvasConfetti({ particleCount: 35, spread: 50, origin: { y: 0.6 } });
+
     playChime();
     if (!voiceEnabledRef.current) return;
     const spokenToken = payload.token.replace('QC-', '').split('').join(' ');
