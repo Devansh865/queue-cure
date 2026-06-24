@@ -2,7 +2,7 @@
 
 ### Real-Time Multi-Cabin Queue Management System for Modern Clinics
 
-🔗 **Live Demo:** pulse-queue.vercel.app
+🔗 **Live Demo:** https://pulse-queue.vercel.app/
 
 📂 **GitHub Repository:** https://github.com/Devansh865/Queue-cure
 
