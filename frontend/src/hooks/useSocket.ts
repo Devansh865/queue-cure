@@ -3,7 +3,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-// Re-use types from backend to ensure alignment
+// ─── Types ────────────────────────────────────────────────────────────────────
+
 export type Priority = 'normal' | 'urgent' | 'emergency';
 export type PatientStatus = 'waiting' | 'serving' | 'served' | 'skipped';
 
@@ -52,6 +53,7 @@ export interface NotificationLog {
 }
 
 export interface QueueState {
+  cabinId: string;
   waiting: Patient[];
   active: Patient | null;
   missed: Patient[];
@@ -60,6 +62,7 @@ export interface QueueState {
   stats: QueueStats;
   isDelayed: boolean;
   delaySeconds: number;
+  manualDelaySeconds: number;
   confidence: 'high' | 'medium' | 'low';
   waitFactors: WaitChangeFactor[];
   roomInfo: RoomInfo;
@@ -67,18 +70,149 @@ export interface QueueState {
   notifications: NotificationLog[];
 }
 
+export interface MultiCabinState {
+  cabins: Record<string, QueueState>; // keyed by cabinId
+  globalTokenCounter: number;
+}
+
+// Payload emitted by the server when a patient is called
+export interface PatientCallAlert {
+  token: string;
+  name: string;
+  cabinId: string;
+  cabinLabel: string;
+  doctorName: string;
+}
+
+// ─── Config ───────────────────────────────────────────────────────────────────
+
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3001';
 
-export function useSocket(onPatientCalled?: (payload: { token: string; name: string }) => void) {
+// ─── useSocket — per-cabin hook for the dashboard and per-cabin monitor ───────
+
+export function useSocket(
+  cabinId: string,
+  onPatientCalled?: (payload: PatientCallAlert) => void
+) {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [queueState, setQueueState] = useState<QueueState | null>(null);
+
+  const cabinIdRef = useRef(cabinId);
+  const onPatientCalledRef = useRef(onPatientCalled);
+  const socketRef = useRef<Socket | null>(null);
+
+  // Keep refs current
+  useEffect(() => { cabinIdRef.current = cabinId; }, [cabinId]);
+  useEffect(() => { onPatientCalledRef.current = onPatientCalled; }, [onPatientCalled]);
+
+  // Create socket once on mount
+  useEffect(() => {
+    const socketInstance = io(SOCKET_URL, {
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 10,
+      reconnectionDelay: 2000,
+    });
+
+    socketInstance.on('connect', () => {
+      console.log(`[useSocket:${cabinIdRef.current}] Connected`);
+      setIsConnected(true);
+    });
+
+    socketInstance.on('disconnect', () => {
+      console.log(`[useSocket:${cabinIdRef.current}] Disconnected`);
+      setIsConnected(false);
+    });
+
+    // Filter state updates by cabin
+    socketInstance.on('state-update', (payload: { cabinId: string; state: QueueState }) => {
+      if (payload.cabinId === cabinIdRef.current) {
+        setQueueState(payload.state);
+      }
+    });
+
+    // Filter patient-call-alert by cabin (only the current cabin's monitor should announce)
+    socketInstance.on('patient-call-alert', (payload: PatientCallAlert) => {
+      if (payload.cabinId === cabinIdRef.current && onPatientCalledRef.current) {
+        onPatientCalledRef.current(payload);
+      }
+    });
+
+    socketRef.current = socketInstance;
+    setSocket(socketInstance);
+
+    return () => { socketInstance.disconnect(); };
+  }, []); // single persistent connection
+
+  // When cabinId changes (dashboard tab switch): clear stale state, request new cabin state
+  useEffect(() => {
+    setQueueState(null);
+    if (socketRef.current?.connected) {
+      socketRef.current.emit('get-cabin-state', { cabinId });
+    }
+  }, [cabinId]);
+
+  // ─── Actions (all include cabinId) ─────────────────────────────────────────
+
+  const addPatient = useCallback((name: string, symptoms: string, priority: Priority) => {
+    socketRef.current?.emit('add-patient', { cabinId: cabinIdRef.current, name, symptoms, priority });
+  }, []);
+
+  const callNext = useCallback(() => {
+    socketRef.current?.emit('call-next', { cabinId: cabinIdRef.current });
+  }, []);
+
+  const skipPatient = useCallback(() => {
+    socketRef.current?.emit('skip-patient', { cabinId: cabinIdRef.current });
+  }, []);
+
+  const recallPatient = useCallback((patientId: string) => {
+    socketRef.current?.emit('recall-patient', { cabinId: cabinIdRef.current, patientId });
+  }, []);
+
+  const addDelay = useCallback((delayMinutes: number) => {
+    socketRef.current?.emit('add-delay', { cabinId: cabinIdRef.current, delayMinutes });
+  }, []);
+
+  const clearDelay = useCallback(() => {
+    socketRef.current?.emit('clear-delay', { cabinId: cabinIdRef.current });
+  }, []);
+
+  const updateConfig = useCallback((averageConsultationTime: number) => {
+    socketRef.current?.emit('update-config', { cabinId: cabinIdRef.current, averageConsultationTime });
+  }, []);
+
+  const updateRoomInfo = useCallback((roomNumber: string, doctorName: string) => {
+    socketRef.current?.emit('update-room-info', { cabinId: cabinIdRef.current, roomNumber, doctorName });
+  }, []);
+
+  const resetQueue = useCallback(() => {
+    socketRef.current?.emit('reset-queue', { cabinId: cabinIdRef.current });
+  }, []);
+
+  return {
+    isConnected,
+    queueState,
+    addPatient,
+    callNext,
+    skipPatient,
+    recallPatient,
+    addDelay,
+    clearDelay,
+    updateConfig,
+    updateRoomInfo,
+    resetQueue,
+  };
+}
+
+// ─── useCabinOverview — receives all-cabins-update for the lobby monitor ──────
+
+export function useCabinOverview(onPatientCalled?: (payload: PatientCallAlert) => void) {
+  const [isConnected, setIsConnected] = useState(false);
+  const [cabinsState, setCabinsState] = useState<MultiCabinState | null>(null);
   const onPatientCalledRef = useRef(onPatientCalled);
 
-  // Keep callback reference updated
-  useEffect(() => {
-    onPatientCalledRef.current = onPatientCalled;
-  }, [onPatientCalled]);
+  useEffect(() => { onPatientCalledRef.current = onPatientCalled; }, [onPatientCalled]);
 
   useEffect(() => {
     const socketInstance = io(SOCKET_URL, {
@@ -88,83 +222,28 @@ export function useSocket(onPatientCalled?: (payload: { token: string; name: str
     });
 
     socketInstance.on('connect', () => {
-      console.log('Connected to PulseQueue Backend');
+      console.log('[useCabinOverview] Connected');
       setIsConnected(true);
     });
 
     socketInstance.on('disconnect', () => {
-      console.log('Disconnected from PulseQueue Backend');
+      console.log('[useCabinOverview] Disconnected');
       setIsConnected(false);
     });
 
-    socketInstance.on('state-update', (state: QueueState) => {
-      setQueueState(state);
+    socketInstance.on('all-cabins-update', (state: MultiCabinState) => {
+      setCabinsState(state);
     });
 
-    socketInstance.on('patient-call-alert', (payload: { token: string; name: string }) => {
+    // Lobby monitor announces for ALL cabins
+    socketInstance.on('patient-call-alert', (payload: PatientCallAlert) => {
       if (onPatientCalledRef.current) {
         onPatientCalledRef.current(payload);
       }
     });
 
-    setSocket(socketInstance);
-
-    return () => {
-      socketInstance.disconnect();
-    };
+    return () => { socketInstance.disconnect(); };
   }, []);
 
-  const addPatient = useCallback((name: string, symptoms: string, priority: Priority) => {
-    if (socket && isConnected) {
-      socket.emit('add-patient', { name, symptoms, priority });
-    }
-  }, [socket, isConnected]);
-
-  const callNext = useCallback(() => {
-    if (socket && isConnected) {
-      socket.emit('call-next');
-    }
-  }, [socket, isConnected]);
-
-  const skipPatient = useCallback(() => {
-    if (socket && isConnected) {
-      socket.emit('skip-patient');
-    }
-  }, [socket, isConnected]);
-
-  const recallPatient = useCallback((patientId: string) => {
-    if (socket && isConnected) {
-      socket.emit('recall-patient', { patientId });
-    }
-  }, [socket, isConnected]);
-
-  const updateConfig = useCallback((averageConsultationTime: number) => {
-    if (socket && isConnected) {
-      socket.emit('update-config', { averageConsultationTime });
-    }
-  }, [socket, isConnected]);
-
-  const updateRoomInfo = useCallback((roomNumber: string, doctorName: string) => {
-    if (socket && isConnected) {
-      socket.emit('update-room-info', { roomNumber, doctorName });
-    }
-  }, [socket, isConnected]);
-
-  const resetQueue = useCallback(() => {
-    if (socket && isConnected) {
-      socket.emit('reset-queue');
-    }
-  }, [socket, isConnected]);
-
-  return {
-    isConnected,
-    queueState,
-    addPatient,
-    callNext,
-    skipPatient,
-    recallPatient,
-    updateConfig,
-    updateRoomInfo,
-    resetQueue
-  };
+  return { isConnected, cabinsState };
 }

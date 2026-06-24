@@ -1,0 +1,210 @@
+{
+  "state": {
+    "cabinId": "cabin-01",
+    "waiting": [],
+    "active": null,
+    "missed": [
+      {
+        "id": "pat_1782296199200_xvpb5beei",
+        "token": "QC-018",
+        "name": "p2",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "skipped",
+        "joinedAt": 1782296199200,
+        "calledAt": 1782297524102,
+        "servedAt": null,
+        "skippedAt": 1782297813177,
+        "estimatedWaitTime": 984,
+        "elapsedTime": 287
+      }
+    ],
+    "served": [
+      {
+        "id": "pat_1782216249269_aykxctz2y",
+        "token": "QC-001",
+        "name": "p1",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782216249269,
+        "calledAt": 1782216304779,
+        "servedAt": 1782216393114,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 88
+      },
+      {
+        "id": "pat_1782216376154_xgibmve2z",
+        "token": "QC-006",
+        "name": "p4",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782216376154,
+        "calledAt": 1782216393114,
+        "servedAt": 1782216755514,
+        "skippedAt": null,
+        "estimatedWaitTime": 212,
+        "elapsedTime": 359
+      },
+      {
+        "id": "pat_1782217973744_bbbxnkaom",
+        "token": "QC-008",
+        "name": "p1",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782217973744,
+        "calledAt": 1782218004256,
+        "servedAt": 1782218013854,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 10
+      },
+      {
+        "id": "pat_1782217974938_8637vzxbl",
+        "token": "QC-009",
+        "name": "p2",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782217974938,
+        "calledAt": 1782218013854,
+        "servedAt": 1782218434742,
+        "skippedAt": null,
+        "estimatedWaitTime": 290,
+        "elapsedTime": 417
+      },
+      {
+        "id": "pat_1782217975495_nyzjei850",
+        "token": "QC-010",
+        "name": "p3",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782217975495,
+        "calledAt": 1782218434742,
+        "servedAt": 1782294654226,
+        "skippedAt": null,
+        "estimatedWaitTime": 117,
+        "elapsedTime": 52
+      },
+      {
+        "id": "pat_1782296194899_0uxyb4ddn",
+        "token": "QC-017",
+        "name": "p1",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782296194899,
+        "calledAt": 1782296229297,
+        "servedAt": 1782297524102,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 1284
+      },
+      {
+        "id": "pat_1782297809836_8o5sx96wy",
+        "token": "QC-023",
+        "name": "aryaa",
+        "symptoms": "General Checkup",
+        "priority": "emergency",
+        "status": "served",
+        "joinedAt": 1782297809836,
+        "calledAt": 1782297822328,
+        "servedAt": 1782298013275,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 190
+      }
+    ],
+    "averageConsultationTime": 5,
+    "stats": {
+      "totalWaiting": 0,
+      "totalServed": 7,
+      "totalMissed": 1,
+      "averageWaitTime": 92,
+      "currentLoad": "low",
+      "efficiencyScore": 95,
+      "queueHealth": "optimal"
+    },
+    "isDelayed": false,
+    "delaySeconds": 0,
+    "manualDelaySeconds": 300,
+    "confidence": "high",
+    "waitFactors": [],
+    "roomInfo": {
+      "roomNumber": "Cabin 01",
+      "doctorName": "Sharma",
+      "status": "available",
+      "expectedCompletionTime": 300
+    },
+    "insights": [
+      "Queue operational load is low. Patient flow is optimal.",
+      "Clinic operating at optimal efficiency. Sessions matching target times."
+    ],
+    "notifications": [
+      {
+        "id": "notif_1782298013468_tao26",
+        "message": "Manual Delay: Dr. Sharma delayed by +5 min. Total offset: 5 min. ETAs recalculated.",
+        "timestamp": 1782298013468,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782297822328_a6upw",
+        "message": "Patient Called: QC-023 (aryaa) to Cabin 01.",
+        "timestamp": 1782297822328,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782297809836_8u92d",
+        "message": "Triage Alert: Patient aryaa (QC-023) registered under Immediate Attention.",
+        "timestamp": 1782297809836,
+        "type": "emergency"
+      },
+      {
+        "id": "notif_1782297524102_7q8lr",
+        "message": "Patient Called: QC-018 (p2) to Cabin 01.",
+        "timestamp": 1782297524102,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782296531983_7sbro",
+        "message": "Delay Alert: Dr. Sharma session exceeds target time.",
+        "timestamp": 1782296531983,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782296229297_9u94e",
+        "message": "Patient Called: QC-017 (p1) to Cabin 01.",
+        "timestamp": 1782296229298,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782218434742_1614i",
+        "message": "Patient Called: QC-010 (p3) to Cabin 01.",
+        "timestamp": 1782218434742,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782218316843_qb62y",
+        "message": "Delay Alert: Dr. Sharma session exceeds target time.",
+        "timestamp": 1782218316843,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782218013854_m0xrv",
+        "message": "Patient Called: QC-009 (p2) to Cabin 01.",
+        "timestamp": 1782218013854,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782218004256_oysqu",
+        "message": "Patient Called: QC-008 (p1) to Cabin 01.",
+        "timestamp": 1782218004256,
+        "type": "info"
+      }
+    ]
+  }
+}

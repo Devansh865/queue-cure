@@ -2,114 +2,176 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
-import { QueueManager } from './queueManager';
+import { CabinRegistry } from './cabinRegistry';
 import { Priority } from './types';
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use(cors({
-  origin: '*', // Allow all origins for testing/development simplicity
-  methods: ['GET', 'POST']
-}));
+app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
 app.use(express.json());
 
-// Simple HTTP health check
+// Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy', timestamp: Date.now() });
 });
 
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
+const io = new Server(httpServer, { cors: { origin: '*', methods: ['GET', 'POST'] } });
+
+const registry = new CabinRegistry();
+
+// ─── REST Endpoints ───────────────────────────────────────────────────────────
+
+// Returns metadata for all registered cabins (for cabin switcher UI)
+app.get('/cabins', (req, res) => {
+  res.json({ cabins: registry.getCabinConfigs() });
 });
 
-const queueManager = new QueueManager();
+// ─── Broadcast Helpers ────────────────────────────────────────────────────────
 
-// Periodically tick every 1 second to update active consultation elapsed time and recalculate delay states.
+/** Emit updated state for one cabin + refresh the lobby overview */
+function broadcastCabin(cabinId: string): void {
+  const cabin = registry.getCabin(cabinId);
+  if (!cabin) return;
+  io.emit('state-update', { cabinId, state: cabin.getState() });
+  io.emit('all-cabins-update', registry.getMultiCabinState());
+}
+
+/** Emit only the lobby overview (used by the 1-second tick) */
+function broadcastAll(): void {
+  // Emit per-cabin updates so individual monitors stay current
+  for (const cabinId of registry.getCabinIds()) {
+    const cabin = registry.getCabin(cabinId)!;
+    io.emit('state-update', { cabinId, state: cabin.getState() });
+  }
+  io.emit('all-cabins-update', registry.getMultiCabinState());
+}
+
+// ─── 1-Second Tick ────────────────────────────────────────────────────────────
 setInterval(() => {
-  // Always tick the active patient
-  const stateChanged = queueManager.tickActivePatient(1);
-  
-  // Broadcast state updates to keep all dashboard timers and ETAs perfectly synchronized in real-time
-  io.emit('state-update', queueManager.getState());
+  registry.tickAll();
+  broadcastAll();
 }, 1000);
+
+// ─── Socket Events ────────────────────────────────────────────────────────────
 
 io.on('connection', (socket: Socket) => {
   console.log(`Client connected: ${socket.id}`);
 
-  // Send initial state upon connection
-  socket.emit('state-update', queueManager.getState());
+  // Send full state snapshot on connect so any page can start immediately
+  for (const cabinId of registry.getCabinIds()) {
+    const cabin = registry.getCabin(cabinId)!;
+    socket.emit('state-update', { cabinId, state: cabin.getState() });
+  }
+  socket.emit('all-cabins-update', registry.getMultiCabinState());
 
-  socket.on('get-state', () => {
-    socket.emit('state-update', queueManager.getState());
-  });
-
-  socket.on('add-patient', (data: { name: string; symptoms: string; priority: Priority }) => {
-    console.log('Event: add-patient received', data);
-    const newPatient = queueManager.addPatient(data.name, data.symptoms, data.priority);
-    if (newPatient) {
-      io.emit('state-update', queueManager.getState());
+  // ── Per-cabin state refresh (e.g. when dashboard switches tabs)
+  socket.on('get-cabin-state', (data: { cabinId: string }) => {
+    const cabin = registry.getCabin(data?.cabinId);
+    if (cabin) {
+      socket.emit('state-update', { cabinId: data.cabinId, state: cabin.getState() });
     }
   });
 
-  socket.on('call-next', () => {
-    console.log('Event: call-next received');
-    const result = queueManager.callNext();
+  // ── Deprecated single-cabin get-state — kept for backward compat
+  socket.on('get-state', () => {
+    socket.emit('all-cabins-update', registry.getMultiCabinState());
+  });
+
+  // ── Register new patient to a specific cabin
+  socket.on('add-patient', (data: { cabinId: string; name: string; symptoms: string; priority: Priority }) => {
+    console.log('Event: add-patient', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin) return;
+    const patient = cabin.addPatient(data.name, data.symptoms, data.priority);
+    if (patient) broadcastCabin(data.cabinId);
+  });
+
+  // ── Call the next patient in a cabin
+  socket.on('call-next', (data: { cabinId: string }) => {
+    console.log('Event: call-next', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin) return;
+    const result = cabin.callNext();
     if (result) {
-      io.emit('state-update', queueManager.getState());
+      broadcastCabin(data.cabinId);
       if (result.active) {
-        // Emit voice call alert for patient display to announce
+        const state = cabin.getState();
+        // Payload includes cabin info for voice announcement
         io.emit('patient-call-alert', {
           token: result.active.token,
-          name: result.active.name
+          name: result.active.name,
+          cabinId: data.cabinId,
+          cabinLabel: state.roomInfo.roomNumber,
+          doctorName: state.roomInfo.doctorName,
         });
       }
     }
   });
 
-  socket.on('skip-patient', () => {
-    console.log('Event: skip-patient received');
-    const skipped = queueManager.skipPatient();
-    if (skipped) {
-      io.emit('state-update', queueManager.getState());
-    }
+  // ── Skip the active patient in a cabin
+  socket.on('skip-patient', (data: { cabinId: string }) => {
+    console.log('Event: skip-patient', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin) return;
+    const skipped = cabin.skipPatient();
+    if (skipped) broadcastCabin(data.cabinId);
   });
 
-  socket.on('recall-patient', (data: { patientId: string }) => {
-    console.log('Event: recall-patient received', data);
-    if (data && data.patientId) {
-      const recalled = queueManager.recallPatient(data.patientId);
-      if (recalled) {
-        io.emit('state-update', queueManager.getState());
-      }
-    }
+  // ── Recall a missed patient to the front of a cabin's queue
+  socket.on('recall-patient', (data: { cabinId: string; patientId: string }) => {
+    console.log('Event: recall-patient', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin || !data?.patientId) return;
+    const recalled = cabin.recallPatient(data.patientId);
+    if (recalled) broadcastCabin(data.cabinId);
   });
 
-  socket.on('update-config', (data: { averageConsultationTime: number }) => {
-    console.log('Event: update-config received', data);
-    if (data && typeof data.averageConsultationTime === 'number') {
-      queueManager.updateConfig(data.averageConsultationTime);
-      io.emit('state-update', queueManager.getState());
-    }
+  // ── Update average consultation time for a cabin
+  socket.on('update-config', (data: { cabinId: string; averageConsultationTime: number }) => {
+    console.log('Event: update-config', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin || typeof data?.averageConsultationTime !== 'number') return;
+    cabin.updateConfig(data.averageConsultationTime);
+    broadcastCabin(data.cabinId);
   });
 
-  socket.on('update-room-info', (data: { roomNumber: string; doctorName: string }) => {
-    console.log('Event: update-room-info received', data);
-    if (data && data.roomNumber && data.doctorName) {
-      queueManager.updateRoomInfo(data.roomNumber, data.doctorName);
-      io.emit('state-update', queueManager.getState());
-    }
+  // ── Update doctor / room info for a cabin
+  socket.on('update-room-info', (data: { cabinId: string; roomNumber: string; doctorName: string }) => {
+    console.log('Event: update-room-info', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin || !data?.roomNumber || !data?.doctorName) return;
+    cabin.updateRoomInfo(data.roomNumber, data.doctorName);
+    broadcastCabin(data.cabinId);
   });
 
-  socket.on('reset-queue', () => {
-    console.log('Event: reset-queue received');
-    queueManager.resetQueue();
-    io.emit('state-update', queueManager.getState());
-    io.emit('queue-reset');
+  // ── Reset a specific cabin's queue
+  socket.on('reset-queue', (data: { cabinId: string }) => {
+    console.log('Event: reset-queue', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin) return;
+    cabin.resetQueue();
+    broadcastCabin(data.cabinId);
+    io.emit('queue-reset', { cabinId: data.cabinId });
+  });
+
+  // ── Add manual doctor delay (receptionist reports that a doctor is running late)
+  socket.on('add-delay', (data: { cabinId: string; delayMinutes: number }) => {
+    console.log('Event: add-delay', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin || typeof data?.delayMinutes !== 'number') return;
+    cabin.addManualDelay(data.delayMinutes);
+    broadcastCabin(data.cabinId);
+  });
+
+  // ── Clear all manual delays for a cabin
+  socket.on('clear-delay', (data: { cabinId: string }) => {
+    console.log('Event: clear-delay', data);
+    const cabin = registry.getCabin(data?.cabinId);
+    if (!cabin) return;
+    cabin.resetManualDelay();
+    broadcastCabin(data.cabinId);
   });
 
   socket.on('disconnect', () => {
@@ -118,5 +180,5 @@ io.on('connection', (socket: Socket) => {
 });
 
 httpServer.listen(PORT, () => {
-  console.log(`PulseQueue Real-time Backend running on http://localhost:${PORT}`);
+  console.log(`PulseQueue Multi-Cabin Backend running on http://localhost:${PORT}`);
 });

@@ -46,18 +46,26 @@ export interface NotificationLog {
 }
 
 export interface QueueState {
+  cabinId: string;
   waiting: Patient[];
   active: Patient | null;
   missed: Patient[];
   served: Patient[];
-  averageConsultationTime: number; // in minutes (default 5)
+  averageConsultationTime: number;
   stats: QueueStats;
   isDelayed: boolean;
   delaySeconds: number;
-  // NEW PATIENT-CENTRIC SCHEMA
+  manualDelaySeconds: number; // Receptionist-injected delay (e.g. "Doctor running 10 min late")
   confidence: 'high' | 'medium' | 'low';
   waitFactors: WaitChangeFactor[];
   roomInfo: RoomInfo;
   insights: string[];
   notifications: NotificationLog[];
+}
+
+
+// Full snapshot of all cabins — used by the lobby monitor and overview screens
+export interface MultiCabinState {
+  cabins: Record<string, QueueState>; // keyed by cabinId
+  globalTokenCounter: number;
 }

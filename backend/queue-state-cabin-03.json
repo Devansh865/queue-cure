@@ -1,0 +1,209 @@
+{
+  "state": {
+    "cabinId": "cabin-03",
+    "waiting": [],
+    "active": null,
+    "missed": [],
+    "served": [
+      {
+        "id": "pat_1782216266793_ggd5097wk",
+        "token": "QC-003",
+        "name": "p3",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782216266793,
+        "calledAt": 1782216337828,
+        "servedAt": 1782216765493,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 424
+      },
+      {
+        "id": "pat_1782216367080_tgru7dio4",
+        "token": "QC-004",
+        "name": "p2",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782216367080,
+        "calledAt": 1782216765493,
+        "servedAt": 1782217891033,
+        "skippedAt": null,
+        "estimatedWaitTime": 124,
+        "elapsedTime": 780
+      },
+      {
+        "id": "pat_1782216369786_wehhg8yc6",
+        "token": "QC-005",
+        "name": "p3 (2)",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782216369786,
+        "calledAt": 1782217891033,
+        "servedAt": 1782218081238,
+        "skippedAt": null,
+        "estimatedWaitTime": 480,
+        "elapsedTime": 189
+      },
+      {
+        "id": "pat_1782217994716_hm1obiywq",
+        "token": "QC-014",
+        "name": "ehruh",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782217994717,
+        "calledAt": 1782218081238,
+        "servedAt": 1782218428021,
+        "skippedAt": null,
+        "estimatedWaitTime": 111,
+        "elapsedTime": 344
+      },
+      {
+        "id": "pat_1782217995902_rzciuef8d",
+        "token": "QC-015",
+        "name": "jehrj",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782217995902,
+        "calledAt": 1782218428021,
+        "servedAt": 1782294662963,
+        "skippedAt": null,
+        "estimatedWaitTime": 44,
+        "elapsedTime": 60
+      },
+      {
+        "id": "pat_1782217996622_8tj6nfwjo",
+        "token": "QC-016",
+        "name": "rjer",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782217996622,
+        "calledAt": 1782294662963,
+        "servedAt": 1782295034990,
+        "skippedAt": null,
+        "estimatedWaitTime": 240,
+        "elapsedTime": 370
+      },
+      {
+        "id": "pat_1782296212509_86vqjoh4q",
+        "token": "QC-021",
+        "name": "p1",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782296212509,
+        "calledAt": 1782296216910,
+        "servedAt": 1782297766719,
+        "skippedAt": null,
+        "estimatedWaitTime": 0,
+        "elapsedTime": 1537
+      },
+      {
+        "id": "pat_1782296213966_1net40gsm",
+        "token": "QC-022",
+        "name": "p2",
+        "symptoms": "General Checkup",
+        "priority": "normal",
+        "status": "served",
+        "joinedAt": 1782296213966,
+        "calledAt": 1782297766719,
+        "servedAt": 1782298021813,
+        "skippedAt": null,
+        "estimatedWaitTime": 1237,
+        "elapsedTime": 253
+      }
+    ],
+    "averageConsultationTime": 5,
+    "stats": {
+      "totalWaiting": 0,
+      "totalServed": 8,
+      "totalMissed": 0,
+      "averageWaitTime": 10091,
+      "currentLoad": "low",
+      "efficiencyScore": 100,
+      "queueHealth": "optimal"
+    },
+    "isDelayed": false,
+    "delaySeconds": 0,
+    "manualDelaySeconds": 0,
+    "confidence": "high",
+    "waitFactors": [],
+    "roomInfo": {
+      "roomNumber": "Cabin 03",
+      "doctorName": "Verma",
+      "status": "available",
+      "expectedCompletionTime": 300
+    },
+    "insights": [
+      "Queue operational load is low. Patient flow is optimal.",
+      "Clinic operating at optimal efficiency. Sessions matching target times."
+    ],
+    "notifications": [
+      {
+        "id": "notif_1782297766719_vqerx",
+        "message": "Patient Called: QC-022 (p2) to Cabin 03.",
+        "timestamp": 1782297766719,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782296519890_yxhli",
+        "message": "Delay Alert: Dr. Verma session exceeds target time.",
+        "timestamp": 1782296519890,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782296216910_3w7ps",
+        "message": "Patient Called: QC-021 (p1) to Cabin 03.",
+        "timestamp": 1782296216910,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782294965197_9pi0p",
+        "message": "Delay Alert: Dr. Verma session exceeds target time.",
+        "timestamp": 1782294965197,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782294662963_vkql9",
+        "message": "Patient Called: QC-016 (rjer) to Cabin 03.",
+        "timestamp": 1782294662963,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782218428021_u3t2b",
+        "message": "Patient Called: QC-015 (jehrj) to Cabin 03.",
+        "timestamp": 1782218428021,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782218384355_z4jwu",
+        "message": "Delay Alert: Dr. Verma session exceeds target time.",
+        "timestamp": 1782218384355,
+        "type": "delay"
+      },
+      {
+        "id": "notif_1782218081238_tlmx3",
+        "message": "Patient Called: QC-014 (ehruh) to Cabin 03.",
+        "timestamp": 1782218081238,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782217891033_efnrd",
+        "message": "Patient Called: QC-005 (p3 (2)) to Cabin 03.",
+        "timestamp": 1782217891033,
+        "type": "info"
+      },
+      {
+        "id": "notif_1782217408432_1vej2",
+        "message": "Delay Alert: Dr. Verma session exceeds target time.",
+        "timestamp": 1782217408432,
+        "type": "delay"
+      }
+    ]
+  }
+}

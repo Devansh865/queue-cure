@@ -2,13 +2,13 @@ import { QueueManager } from '../queueManager';
 import fs from 'fs';
 import path from 'path';
 
-// Clean up state file before and after tests
-const stateFilePath = path.join(__dirname, '../../queue-state.json');
+// Clean up cabin-scoped state file before and after tests
+let globalTokenCounter = 0;
+const getNextToken = () => `QC-${String(++globalTokenCounter).padStart(3, '0')}`;
+const stateFilePath = path.join(__dirname, '../../queue-state-test-cabin.json');
 const cleanStateFile = () => {
   if (fs.existsSync(stateFilePath)) {
-    try {
-      fs.unlinkSync(stateFilePath);
-    } catch (e) {}
+    try { fs.unlinkSync(stateFilePath); } catch (e) {}
   }
 };
 
@@ -16,8 +16,9 @@ describe('QueueManager Unit Tests', () => {
   let queueManager: QueueManager;
 
   beforeEach(() => {
+    globalTokenCounter = 0;
     cleanStateFile();
-    queueManager = new QueueManager();
+    queueManager = new QueueManager('test-cabin', 'Cabin Test', 'TestDoctor', getNextToken);
   });
 
   afterEach(() => {
@@ -26,6 +27,7 @@ describe('QueueManager Unit Tests', () => {
 
   test('should initialize with an empty state', () => {
     const state = queueManager.getState();
+    expect(state.cabinId).toBe('test-cabin');
     expect(state.waiting).toHaveLength(0);
     expect(state.active).toBeNull();
     expect(state.missed).toHaveLength(0);

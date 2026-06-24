@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useSocket, Patient, QueueState, WaitChangeFactor } from '../../hooks/useSocket';
+import { useCabinOverview, Patient, QueueState, WaitChangeFactor } from '../../hooks/useSocket';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
@@ -35,10 +35,10 @@ interface StatusConfig {
 
 function getWaitStatus(waitSeconds: number): StatusConfig {
   const minutes = Math.round(waitSeconds / 60);
-  if (minutes < 15)
+  if (minutes <= 10)
     return {
       level: 'low',
-      label: 'Short Wait',
+      label: 'Expected Soon',
       sublabel: 'Please be ready',
       bg: 'bg-emerald-500/10',
       border: 'border-emerald-500/30',
@@ -46,7 +46,7 @@ function getWaitStatus(waitSeconds: number): StatusConfig {
       dot: 'bg-emerald-400',
       pulse: true
     };
-  if (minutes <= 30)
+  if (minutes <= 25)
     return {
       level: 'medium',
       label: 'Moderate Wait',
@@ -59,7 +59,7 @@ function getWaitStatus(waitSeconds: number): StatusConfig {
     };
   return {
     level: 'high',
-    label: 'Long Wait',
+    label: 'Busy Right Now',
     sublabel: 'Relax — we will announce',
     bg: 'bg-rose-500/10',
     border: 'border-rose-500/30',
@@ -82,67 +82,26 @@ interface TrackedInfo {
   waitFactors: WaitChangeFactor[];
 }
 
-function findPatient(tokenInput: string, state: QueueState | null): TrackedInfo {
-  const empty: TrackedInfo = {
-    found: false,
-    patient: null,
-    position: -1,
-    isActive: false,
-    isServed: false,
-    isMissed: false,
-    peopleAhead: 0,
-    estimatedWaitTime: 0,
-    waitFactors: []
-  };
-
-  if (!state) return empty;
-
-  const normalised = tokenInput.trim().toUpperCase();
-
-  // Check active patient
-  if (state.active && state.active.token.toUpperCase() === normalised) {
-    return {
-      found: true,
-      patient: state.active,
-      position: 0,
-      isActive: true,
-      isServed: false,
-      isMissed: false,
-      peopleAhead: 0,
-      estimatedWaitTime: 0,
-      waitFactors: state.waitFactors ?? []
-    };
+function findPatient(tokenInput: string, states: QueueState[]): TrackedInfo {
+  const empty: TrackedInfo = { found: false, patient: null, position: -1, isActive: false, isServed: false, isMissed: false, peopleAhead: 0, estimatedWaitTime: 0, waitFactors: [] };
+  if (!states || states.length === 0) return empty;
+  const norm = tokenInput.trim().toUpperCase();
+  for (const state of states) {
+    if (state.active && state.active.token.toUpperCase() === norm)
+      return { found: true, patient: state.active, position: 0, isActive: true, isServed: false, isMissed: false, peopleAhead: 0, estimatedWaitTime: 0, waitFactors: state.waitFactors ?? [] };
+    const idx = state.waiting.findIndex(p => p.token.toUpperCase() === norm);
+    if (idx !== -1) {
+      const patient = state.waiting[idx];
+      return { found: true, patient, position: idx + 1, isActive: false, isServed: false, isMissed: false, peopleAhead: idx, estimatedWaitTime: patient.estimatedWaitTime, waitFactors: state.waitFactors ?? [] };
+    }
+    const served = state.served.find(p => p.token.toUpperCase() === norm);
+    if (served) return { found: true, patient: served, position: -1, isActive: false, isServed: true, isMissed: false, peopleAhead: 0, estimatedWaitTime: 0, waitFactors: [] };
+    const missed = state.missed.find(p => p.token.toUpperCase() === norm);
+    if (missed) return { found: true, patient: missed, position: -1, isActive: false, isServed: false, isMissed: true, peopleAhead: 0, estimatedWaitTime: 0, waitFactors: [] };
   }
-
-  // Check waiting list
-  const idx = state.waiting.findIndex(p => p.token.toUpperCase() === normalised);
-  if (idx !== -1) {
-    const patient = state.waiting[idx];
-    return {
-      found: true,
-      patient,
-      position: idx + 1,
-      isActive: false,
-      isServed: false,
-      isMissed: false,
-      peopleAhead: idx, // patients ahead in queue (not counting self)
-      estimatedWaitTime: patient.estimatedWaitTime,
-      waitFactors: state.waitFactors ?? []
-    };
-  }
-
-  // Check served
-  const served = state.served.find(p => p.token.toUpperCase() === normalised);
-  if (served)
-    return { found: true, patient: served, position: -1, isActive: false, isServed: true, isMissed: false, peopleAhead: 0, estimatedWaitTime: 0, waitFactors: [] };
-
-  // Check missed/skipped
-  const missed = state.missed.find(p => p.token.toUpperCase() === normalised);
-  if (missed)
-    return { found: true, patient: missed, position: -1, isActive: false, isServed: false, isMissed: true, peopleAhead: 0, estimatedWaitTime: 0, waitFactors: [] };
-
   return empty;
 }
+
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 export default function TrackPage() {
@@ -150,7 +109,8 @@ export default function TrackPage() {
   const [searchedToken, setSearchedToken] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
   const [timeStr, setTimeStr] = useState('');
-  const { isConnected, queueState } = useSocket();
+  const { isConnected, cabinsState } = useCabinOverview();
+  const allCabinStates = cabinsState ? Object.values(cabinsState.cabins) : [];
 
   // Clock
   useEffect(() => {
@@ -174,7 +134,7 @@ export default function TrackPage() {
     setHasSearched(true);
   };
 
-  const info = findPatient(searchedToken, queueState);
+  const info = findPatient(searchedToken, allCabinStates);
   const status = info.found && !info.isServed && !info.isMissed
     ? getWaitStatus(info.estimatedWaitTime)
     : null;

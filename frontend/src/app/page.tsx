@@ -8,12 +8,20 @@ import { Activity, ShieldAlert, Cpu, HeartPulse, Sparkles, Monitor, ClipboardChe
 export default function LandingPage() {
   return (
     <main className="min-h-screen relative overflow-hidden bg-slate-950 text-slate-100 flex flex-col justify-center items-center p-6 md:p-12">
+      {/* Blended Background Image */}
+      <img 
+        src="/bg.jpg" 
+        alt="Background" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 mix-blend-screen pointer-events-none"
+        style={{ WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%)', maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%)' }}
+      />
+
       {/* Medical Grid Overlay */}
       <div className="medical-grid" />
 
       {/* Ambient background glows */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl w-full text-center space-y-12">
         {/* LOGO & TITLE */}
@@ -22,9 +30,9 @@ export default function LandingPage() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', duration: 0.8 }}
-            className="inline-flex p-3.5 bg-indigo-600/10 border border-indigo-500/20 rounded-2xl text-indigo-400 mb-2 hover:scale-105 transition-transform"
+            className="inline-flex mb-2 hover:scale-105 transition-transform drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]"
           >
-            <HeartPulse size={40} className="animate-pulse" />
+            <img src="/logo.png" alt="PulseQueue Logo" className="h-20 w-auto object-contain" />
           </motion.div>
           
           <motion.h1
