@@ -7,6 +7,7 @@ PulseQueue is a production-grade, real-time clinical command center and patient 
 ## 🚀 Key Features
 
 * **Real-time Synchronized Boards**: Updates are broadcasted to all connected clients in under 50ms upon any receptionist queue action.
+* **Multi-Cabin Architecture**: Supports independent queues for multiple doctors/rooms, dynamically managed by a centralized cabin registry.
 * **Triage Priority Scheduling**: Patients are sorted clinically: `Emergency` $\rightarrow$ `Urgent` $\rightarrow$ `Normal`, utilizing strict FIFO sorting within priority groups.
 * **Smart ETA Estimation Engine**: Continuously updates waiting times based on queue size, elapsed session time, and clinical priority rankings.
 * **Dynamic Delay Detection**: Exceeding average consultation times alerts receptionists and adjusts patient wait times on waiting screens.
@@ -26,6 +27,7 @@ queue-cure-2026/
 │   ├── src/
 │   │   ├── __tests__/
 │   │   │   └── queueManager.test.ts  # Backend unit tests
+│   │   ├── cabinRegistry.ts          # Multi-cabin routing and state management
 │   │   ├── queueManager.ts           # Class-based state & ETA scheduler
 │   │   ├── server.ts                 # Socket.IO & Express configuration
 │   │   └── types.ts                  # Shared TypeScript interfaces
