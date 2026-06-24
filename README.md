@@ -4,7 +4,9 @@
 
 🔗 **Live Demo:** https://pulse-queue.vercel.app/
 
-📂 **GitHub Repository:** https://github.com/Devansh865/Queue-cure
+📂 **Video walkthrough and socket/architecture diagrams:** https://drive.google.com/drive/folders/1pN3a9gOChJz9AGOqGMfjFv0vMATlaYTR?usp=sharing
+
+
 
 ---
 
